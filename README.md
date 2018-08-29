@@ -141,6 +141,8 @@ MyBatis的SQL语句和映射配置文件
 </mappers>
 ```
 
+
+
 ## Mapper映射配置文件
 
 整体框架
@@ -168,7 +170,62 @@ namespace 定义了当前的xml的命名空间
 
 id 通过id可以找到执行哪一条语句
 
+select中返回值有两种，一种是使用resultType，另一种是使用resultMap
+
+resultType 需要的是类的**权限定名或者是类的别名**，如果返回值是一个List，那么我们的返回值就需要是集合包含的值的类型，而不是集合类型，**如果返回值是集合类型，但表与实体类不匹配，那么就需要我们使用SQL语句中给字段起别名的方法进行匹配**
+
+resultMap 能够解决许多困难的映射案例，对于表中字段与实体类不匹配问题，可以使用这个来设计一个映射关系进行映射
+
+**上述的两个不能同时出现**
+
 resultType 当前查询的返回值类型，在之前的配置文件中<typeAliases>配置了我们的包名，所以我们直接在这个位置上进行类的查询
+
+在我们查询全部信息的时候，不要使用*，会影响性能，要把全部需要查询的列名写出来
+
+⚠️：剩下的有insert等标签，过后再看
+
+## XML方式的基本用法
+
+我们首先创建. Mapper.xml. 文件，这个文件中我们进行SQL语句的编写(⚠️这块总结的不好，之后再进行总结)
+
+创建xml文件之后，我们需要对文件进行引用，引用的时候，我们要在mybatis的配置文件<mappers>中进行配置，
+
+```xml
+<mappers>
+
+        <mapper resource="cn/edu/dlnu/simple/mapper/CountryMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/UserMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/RoleMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/PrivilegeMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/UserRoleMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/RolePrivilegeMapper.xml"/>
+
+    </mappers>
+```
+
+这种方法太麻烦
+
+我们还可以使用
+
+```xml
+<mappers>
+    <package name="cn.edu.dlnu.simple.mapper"/>
+</mappers>
+```
+
+因为每一个xml文件都有接口对应，所以可以采用这种方法
+
+Mybatis会首先检查这个包地下的全部的接口，循环进行一下的操作
+
+将接口的权限定名以.xml为后缀搜索资源
+
+
+
+之后我们要编写Mapper接口
+
+
+
+当我们只使用XML不使用接口的时候，namespace的value随意，标签中id不能用**“.”**，同一个命名空间下面不能有同样的id，接口中的方法可以重载，多个重载方法对应着同一个id的方法
 
 ## 小问题总结
 
@@ -190,7 +247,7 @@ resultType 当前查询的返回值类型，在之前的配置文件中<typeAlia
 
      ```xml
      <resultMap id="countryResultMap" type="Country">
-         <result property="id" column="ID"/>
+         <id property="id" column="ID"/>
          <result property="countryName" column="COUNTRY_NAME"/>
          <result property="countryCode" column="COUNTRY_CODE"/>
      </resultMap>
@@ -205,5 +262,46 @@ resultType 当前查询的返回值类型，在之前的配置文件中<typeAlia
      type映射的类名
 
      之后的就是映射的字段
+
+     <resultMap>标签包含的属性
+
+     id 唯一确认
+
+     type 配置查询类所映射到的Java对象，就是表对应的实体类
+
+     extends 当前的resultMap继承其他的resultMap，通过id
+
+     autoMapping 启动非映射字段的自动映射功能
+
+     ```xml
+     <resultMap id="countryResultMap" type="Country">
+         <result property="id" column="ID"/>
+         <result property="countryName" column="COUNTRY_NAME"/>
+     </resultMap>
+     
+     <resultMap id="countryResultMap1" type="Country" extends="countryResultMap">
+         <result property="countryCode" column="COUNTRY_CODE"/>
+     </resultMap>
+     
+     <select id="selectAll" resultType="Country" resultMap="countryResultMap1">
+         SELECT ID, COUNTRY_NAME, COUNTRY_CODE FROM COUNTRY;
+     </select>
+     ```
+
+     内部标签包括
+
+     constructor 
+
+     id,result 这两个标签包含的属性相同 **id代表的是主键字段(通过setter方式注入)**，result代表的是一般字段。
+
+     - javaType   一个java类的完全限定名
+     - jdbcType
+     - typeHandler
+
+     association
+
+     collection
+
+     case
 
      ⚠️:当前使用到的智勇result，之后还要进行更新

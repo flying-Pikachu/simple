@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.dlnu.simple.mapper.UserMapper">
+
+    <!--<resultMap id="userMap" type="cn.edu.dlnu.simple.model.SysUser">-->
+
+        <!--<id property="id" column="id"/>-->
+        <!--<result property="userName" column="USER_NAME"/>-->
+        <!--<result property="userPassword" column="USER_PASSWORD"/>-->
+        <!--<result property="userEmail" column="USER_EMAIL"/>-->
+        <!--<result property="userInfo" column="USER_INFO"/>-->
+        <!--<result property="headImg" column="HEAD_IMG" jdbcType="BLOB"/>-->
+        <!--<result property="createTime" column="CREATE_TIME" jdbcType="DATETIME"/>-->
+
+    <!--</resultMap>-->
+
+    <!--<select id="selectById" resultMap="userMap">-->
+        <!--SELECT * FROM SYS_USER WHERE ID = #{id}-->
+    <!--</select>-->
+
+</mapper>

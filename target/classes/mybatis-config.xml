@@ -16,27 +16,40 @@
 
     <typeAliases>
         <!--<typeAlias alias="cou" type="cn.edu.dlnu.simple.model.Country"/>-->
-        <package name="cn.edu.dlnu.simple.model"></package>
+        <package name="cn.edu.dlnu.simple.model"/>
     </typeAliases>
 
 
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC">
-                <property name="" value=""></property>
+                <property name="" value=""/>
             </transactionManager>
             <dataSource type="UNPOOLED">
-                <property name="driver" value="${jdbc.driver}"></property>
-                <property name="url" value="${jdbc.url}"></property>
-                <property name="username" value="${jdbc.username}"></property>
-                <property name="password" value="${jdbc.password}"></property>
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
     </environments>
 
 
     <mappers>
-        <mapper resource="cn/edu/dlnu/simple/mapper/CountryMapper.xml"></mapper>
+
+        <mapper resource="cn/edu/dlnu/simple/mapper/CountryMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/UserMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/RoleMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/PrivilegeMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/UserRoleMapper.xml"/>
+        <mapper resource="cn/edu/dlnu/simple/mapper/RolePrivilegeMapper.xml"/>
+
     </mappers>
+
+    <!--<mappers>-->
+
+        <!--<package name="cn.edu.dlnu.simple.mapper"/>-->
+
+    <!--</mappers>-->
 
 </configuration>

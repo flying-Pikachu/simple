@@ -3,14 +3,24 @@
 
 <mapper namespace="cn.edu.dlnu.simple.mapper.CountryMapper">
 
-    <resultMap id="countryResultMap" type="cou">
-        <result property="id" column="ID"/>
+    <resultMap id="countryResultMap" type="Country">
+
+        <id property="id" column="ID"/>
+
         <result property="countryName" column="COUNTRY_NAME"/>
-        <result property="countryCode" column="COUNTRY_CODE"/>
+
     </resultMap>
 
-    <select id="selectAll" resultType="cou" resultMap="countryResultMap">
+    <resultMap id="countryResultMap1" type="Country" extends="countryResultMap" autoMapping="true">
+
+        <result property="countryCode" column="COUNTRY_CODE"/>
+
+    </resultMap>
+
+    <select id="selectAll" resultType="Country" resultMap="countryResultMap1">
+
         SELECT ID, COUNTRY_NAME, COUNTRY_CODE FROM COUNTRY;
+
     </select>
 
 </mapper>
