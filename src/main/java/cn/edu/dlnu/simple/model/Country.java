@@ -1,5 +1,7 @@
 package cn.edu.dlnu.simple.model;
 
+import org.apache.ibatis.type.Alias;
+
 import java.util.Objects;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Objects;
  * @date       ：Created in 9:33 AM 29/08/2018
  * @Description：这个类是国家类，COUNTRY表对应的Java文件
  */
+@Alias("cou")
 public class Country {
 
     private Long id;
