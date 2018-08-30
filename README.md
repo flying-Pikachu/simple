@@ -661,6 +661,175 @@ Mybatis会首先检查这个包地下的全部的接口，循环进行一下的�
 
   略
 
+## 动态SQL
+
+### if
+
+```xml
+<select id="selectByUser" resultType="cn.edu.dlnu.simple.model.SysUser">
+    select ID,
+    USER_NAME userName,
+    USER_PASSWORD userPassword,
+    USER_EMAIL userEmail,
+    USER_INFO userInfo,
+    HEAD_IMG headImg,
+    CREATE_TIME createTime
+    FROM SYS_USER
+    WHERE 1 = 1
+    <if test="userName != null and userName != ''">
+        and USER_NAME like concat('%', #{userName}, '%')
+    </if>
+    <if test="userEmail != null and userEmail != ''">
+        and USER_EMAIL = #{userEmail}
+    </if>
+</select>
+```
+
+if中的test要符合OGNL表达式，结果是true或false，非0值为true，0为false
+
+### choose
+
+```xml
+<select id="selectByIdOrUserName" resultType="cn.edu.dlnu.simple.model.SysUser">
+    select ID,
+    USER_NAME userName,
+    USER_PASSWORD userPassword,
+    USER_EMAIL userEmail,
+    USER_INFO userInfo,
+    HEAD_IMG headImg,
+    CREATE_TIME createTime
+    FROM SYS_USER
+    WHERE 1 = 1
+    <choose>
+        <when test="id != null">
+            and id = #{id}
+        </when>
+        <when test="userName != null and userName != ''">
+            and userName = #{userName}
+        </when>
+        <otherwise>
+            and 1 = 2
+        </otherwise>
+    </choose>
+</select>
+```
+
+when 相当于一个if，otherwise相当于一个else
+
+### where
+
+```xml
+<select id="selectByUser" resultType="cn.edu.dlnu.simple.model.SysUser">
+        select ID,
+            USER_NAME userName,
+            USER_PASSWORD userPassword,
+            USER_EMAIL userEmail,
+            USER_INFO userInfo,
+            HEAD_IMG headImg,
+            CREATE_TIME createTime
+        FROM SYS_USER
+        WHERE 1 = 1
+        <if test="userName != null and userName != ''">
+            and USER_NAME like concat('%', #{userName}, '%')
+        </if>
+        <if test="userEmail != null and userEmail != ''">
+            and USER_EMAIL = #{userEmail}
+        </if>
+
+    </select>
+
+    <select id="selectByUser" resultType="cn.edu.dlnu.simple.model.SysUser">
+        select ID,
+        USER_NAME userName,
+        USER_PASSWORD userPassword,
+        USER_EMAIL userEmail,
+        USER_INFO userInfo,
+        HEAD_IMG headImg,
+        CREATE_TIME createTime
+        FROM SYS_USER
+        <where>
+            <if test="userName != null and userName != ''">
+                AND USER_NAME LIKE concat('%', #{userName}, '%')
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                AND USER_EMAIL = #{userEmail}
+            </if>
+        </where>
+    </select>
+```
+
+如果不使用where标签，我们就需要加上一个一定成立的等式，因为我们每一个**if中都需要有and**，不加等式语法有问题了。
+
+下面的那个使用了where，Mybatis自动去掉and
+
+### set
+
+### trim
+
+### foreach
+
+```xml
+<select id="selectByidList" resultType="cn.edu.dlnu.simple.model.SysUser">
+    select ID,
+    USER_NAME userName,
+    USER_PASSWORD userPassword,
+    USER_EMAIL userEmail,
+    USER_INFO userInfo,
+    HEAD_IMG headImg,
+    CREATE_TIME createTime
+    FROM SYS_USER
+    WHERE ID IN
+    <foreach collection="list" open="(" close=")" separator="," item="id" index="i">
+        #{id}
+    </foreach>
+</select>
+```
+
+Collection 集合的种类，可以是list，或者是set，或者是array，只要是能进行迭代的都可以
+
+item 从迭代对象中取出的每一个值的引用
+
+index 索引的属性名，数组等数据结构的是下标，map的是key
+
+open 整个循环的内容开头的字符串
+
+close 整个循环的内容结尾的字符串
+
+separator 每次循环的分隔符
+
+最后相当于where id in (1, 2, 3)
+
+:yellow_heart:当我们的参数为一个数组参数或集合参数的时候，默认会转换成Map，为集合的时候，map.put("collection", reference),map.put("list", reference);当为数组的时候，map.put("array", reference) 这样就可以在collection中与参数类型对应起来了
+
+我们使用@Param指定每一个参数的名字，这样我们就可以在collection中直接指定名称了
+
+```xml
+<select id="selectByidList" resultType="cn.edu.dlnu.simple.model.SysUser">
+    select ID,
+    USER_NAME userName,
+    USER_PASSWORD userPassword,
+    USER_EMAIL userEmail,
+    USER_INFO userInfo,
+    HEAD_IMG headImg,
+    CREATE_TIME createTime
+    FROM SYS_USER
+    WHERE ID IN
+    <foreach collection="idList" open="(" close=")" separator="," item="id" index="i">
+        #{id}
+    </foreach>
+</select>
+
+List<SysUser> selectByidList(@Param("idList") List<Long> idList);
+```
+
+如果参数是Map，item作为map的val，index作为map的key，collection指定名字，或者是使用_parameter代替
+
+### bind用法
+
+⚠️：明天继续
+
+
+
 ## 小问题总结
 
 1. 数据库中的字段与实体类中的属性不匹配 

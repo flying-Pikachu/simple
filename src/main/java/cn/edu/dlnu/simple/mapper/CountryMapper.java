@@ -7,5 +7,5 @@ package cn.edu.dlnu.simple.mapper;
  * @ Modified By：
  * @Version: $version$
  */
-public class CountryMapper {
+public interface CountryMapper {
 }

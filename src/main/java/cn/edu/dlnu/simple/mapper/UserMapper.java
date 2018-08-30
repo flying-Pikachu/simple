@@ -1,6 +1,7 @@
 package cn.edu.dlnu.simple.mapper;
 
 import cn.edu.dlnu.simple.model.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -32,4 +33,23 @@ public interface UserMapper {
      */
     List<SysUser> selectAll();
 
+    /**
+     * create by: xzp
+     * description: 通过Id或者用户名查找用户
+     * create time: 4:46 PM 30/08/2018
+     *
+     * @param sysUser 用户信息
+     * @return SysUser
+     */
+    SysUser selectByIdOrUserName(SysUser sysUser);
+
+    /**
+     * create by: xzp
+     * description:根据id集合查询
+     * create time: 5:08 PM 30/08/2018
+     *
+     * @param idList
+     * @return java.util.List<cn.edu.dlnu.simple.model.SysUser>
+     */
+    List<SysUser> selectByidList(@Param("idList") List<Long> idList);
 }
