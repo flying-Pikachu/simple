@@ -21,7 +21,7 @@ public interface UserMapper {
      * @param id 查找的用户id
      * @return 用户的全部信息
      */
-//    SysUser selectById(Long id);
+    SysUser selectById(Long id);
 
     /**
      * create by: xzp
@@ -30,6 +30,6 @@ public interface UserMapper {
      *
      * @return List 全部用户的全部信息
      */
-//    List<SysUser> selectAll();
+    List<SysUser> selectAll();
 
 }

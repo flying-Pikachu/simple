@@ -3,17 +3,17 @@
 
 <mapper namespace="cn.edu.dlnu.simple.mapper.UserMapper">
 
-    <!--<resultMap id="userMap" type="cn.edu.dlnu.simple.model.SysUser">-->
+    <resultMap id="userMap" type="cn.edu.dlnu.simple.model.SysUser">
 
-        <!--<id property="id" column="id"/>-->
-        <!--<result property="userName" column="USER_NAME"/>-->
-        <!--<result property="userPassword" column="USER_PASSWORD"/>-->
-        <!--<result property="userEmail" column="USER_EMAIL"/>-->
-        <!--<result property="userInfo" column="USER_INFO"/>-->
-        <!--<result property="headImg" column="HEAD_IMG" jdbcType="BLOB"/>-->
-        <!--<result property="createTime" column="CREATE_TIME" jdbcType="DATETIME"/>-->
+        <id property="id" column="id"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="userPassword" column="USER_PASSWORD"/>
+        <result property="userEmail" column="USER_EMAIL"/>
+        <result property="userInfo" column="USER_INFO"/>
+        <result property="headImg" column="HEAD_IMG" jdbcType="BLOB"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="DATE"/>
 
-    <!--</resultMap>-->
+    </resultMap>
 
     <!--&lt;!&ndash;不好,要写出全部的列名&ndash;&gt;-->
     <!--<select id="selectById" resultMap="userMap">-->

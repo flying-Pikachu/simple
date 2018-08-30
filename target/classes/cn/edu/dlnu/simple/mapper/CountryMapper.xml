@@ -16,23 +16,13 @@
         <result property="countryCode" column="COUNTRY_CODE"/>
 
     </resultMap>
-    
-    <sql id="countryColumns">
-        ID,
-        COUNTRY_NAME,
-        COUNTRY_CODE
-    </sql>
+
 
     <select id="selectAll" resultType="Country" resultMap="countryResultMap1">
 
         SELECT
-            <include refid="countryColumns">
-                <property name="country" value="t1"/>
-                <property name="country" value="t2"/>
-                <property name="country" value="t3"/>
-            </include>
-#         , COUNTRY_NAME, COUNTRY_CODE
-        FROM COUNTRY;
+          ID, COUNTRY_NAME, COUNTRY_CODE
+            FROM COUNTRY;
 
     </select>
 

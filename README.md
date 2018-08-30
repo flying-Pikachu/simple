@@ -560,6 +560,107 @@ Mybatis会首先检查这个包地下的全部的接口，循环进行一下的�
 
 当我们只使用XML不使用接口的时候，namespace的value随意，标签中id不能用**“.”**，同一个命名空间下面不能有同样的id，接口中的方法可以重载，多个重载方法对应着同一个id的方法
 
+## 注解方式
+
+把SQL语句直接写在接口上面，对于需求简单的系统效率高，**但当SQL有变化的时候需要重新编译代码**
+
+- @Select
+
+  ```xml
+  <settings>
+  	<setting name=”mapUnderscoreToCamelCase” value=”true”/>  
+  <settings>
+  ```
+
+  这样配置了之后，他就自动下划线转驼峰操作了
+
+  ```java
+  @Select({
+      "SELECT ID, role_name" +
+          ", enable" +
+          ", created_by, " +
+          "created_time" +
+          "FROM SYS_ROLE" +
+          "WHERE ID = #{id}"
+  })
+  SysRole selectById(Long id);
+  ```
+
+- @Results 使用这个来做属性的映射（XML中的resultMap）
+
+  ```java
+  @Results({
+      @Result(property = "id", column = "ID", id = true),
+      @Result(property = "roleName", column = "ROLE_NAME"),
+      @Result(property = "createBy", column = "CREATED_BY"),
+      @Result(property = "createTime", column = "CREATED_TIME")
+  })
+  @Select({
+      "SELECT ID, role_name" +
+          ", enable" +
+          ", created_by, " +
+          "created_time" +
+          "FROM SYS_ROLE" +
+          "WHERE ID = #{id}"
+  })
+  SysRole selectById(Long id);
+  ```
+
+  3.3.0之前的版本，Results不能共用，现在在Results上设置一个id就可以共用了
+
+  ```java
+  @Results(id = "roleResultMap", value = {
+      @Result(property = "id", column = "ID", id = true),
+      @Result(property = "roleName", column = "ROLE_NAME"),
+      @Result(property = "createBy", column = "CREATED_BY"),
+      @Result(property = "createTime", column = "CREATED_TIME")
+  })
+  
+  @ResultMap("roleResultMap")
+  @Select({
+      "SELECT * FROM SYS_ROLE"
+  })
+  List<SysRole> selectAll();
+  ```
+
+- @Insert
+
+  ```java
+  @Insert({
+      "INSERT INTO SYS_ROLE(ROLE_NAME, ENABLED, CREATED_BY, CREATED_TIME)" +
+          "VALUES(#{roleName}, #{enable}, #{createBy}, #{createTime, jdbcType=DATE})"
+  })
+  @Options(useGeneratedKeys = true, keyProperty = "id")
+  void insert(SysRole sysRole);
+  ```
+
+- @Delete
+
+  ```java
+  @Delete({
+      "delete from sys role where id = #{id }"
+  })
+  int deleteById(Long id);
+  ```
+
+- @Update
+
+  ```java
+  @Update({
+  "UPDATE SYS_ROLE set " +
+  "role name = #{roleName}, " +
+  "enabled = #{enabled}, " +
+  "create by = #{createBy}, " +
+  "create time = #{createTime, jdbcType=TIMESTAMP} " +
+  "where id = #{id}"
+  })
+  int updateById(SysRole sysRole);
+  ```
+
+- @Provider
+
+  略
+
 ## 小问题总结
 
 1. 数据库中的字段与实体类中的属性不匹配 
