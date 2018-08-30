@@ -19,6 +19,11 @@ public class Country {
 
     }
 
+    public Country(String countryName, String countryCode) {
+        this.countryName = countryName;
+        this.countryCode = countryCode;
+    }
+
     public Country(Long id, String countryName, String countryCode) {
         this.id = id;
         this.countryName = countryName;

@@ -2,12 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad2d1be7-ee14-4371-a812-6fe773ab6022" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/Country.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/Country.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/CountryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/CountryMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/CountryMapperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/CountryMapperTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/dlnu/simple/mapper/CountryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/dlnu/simple/mapper/CountryMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/dlnu/simple/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/dlnu/simple/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mybatis-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mybatis-config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/cn/edu/dlnu/simple/mapper/CountryMapperTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/cn/edu/dlnu/simple/mapper/CountryMapperTest.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -57,11 +63,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CountryMapper.xml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CountryMapper.xml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/CountryMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+            <state relative-caret-position="239">
+              <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="country" pinned="false" current-in-tab="false">
+        <entry file="das://5551ae4b-ce3d-493a-97ee-6a5b5dfd6078/schema/test_mybatis/table/country">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -69,8 +84,8 @@
       <file leaf-file-name="UserMapper.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+            <state relative-caret-position="171">
+              <caret line="9" column="25" lean-forward="true" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -78,8 +93,8 @@
       <file leaf-file-name="UserMapper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserMapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+            <state relative-caret-position="226">
+              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -90,20 +105,11 @@
       <file leaf-file-name="CountryMapperTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/CountryMapperTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="114">
+              <caret line="43" column="13" lean-forward="true" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mybatis-config.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="98">
-              <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -147,16 +153,16 @@
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysPrivilege.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysRolePrivilege.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysUser.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/Country.java" />
         <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/RoleMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/PrivilegeMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/RolePrivilegeMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserRoleMapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/CountryMapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserMapper.java" />
         <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/Country.java" />
         <option value="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/CountryMapperTest.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/CountryMapper.xml" />
       </list>
     </option>
   </component>
@@ -290,7 +296,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
-    <property name="database.console.LAST_STATE" value="true" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect" value="MySQL" />
+    <property name="database.console.LAST_STATE" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="editing.templates" />
@@ -307,7 +314,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.CountryMapperTest.testSelectAll">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -325,6 +332,52 @@
       <option name="MAIN_CLASS_NAME" value="cn.edu.dlnu.simple.mapper.CountryMapperTest" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="CountryMapperTest.testInsertCountry" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="simple" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.edu.dlnu.simple.mapper.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="cn.edu.dlnu.simple.mapper" />
+      <option name="MAIN_CLASS_NAME" value="cn.edu.dlnu.simple.mapper.CountryMapperTest" />
+      <option name="METHOD_NAME" value="testInsertCountry" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="CountryMapperTest.testSelectAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="simple" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.edu.dlnu.simple.mapper.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="cn.edu.dlnu.simple.mapper" />
+      <option name="MAIN_CLASS_NAME" value="cn.edu.dlnu.simple.mapper.CountryMapperTest" />
+      <option name="METHOD_NAME" value="testSelectAll" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
@@ -372,8 +425,15 @@
       <properties />
       <listeners />
     </configuration>
+    <list>
+      <item itemvalue="JUnit.CountryMapperTest" />
+      <item itemvalue="JUnit.CountryMapperTest.testInsertCountry" />
+      <item itemvalue="JUnit.CountryMapperTest.testSelectAll" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CountryMapperTest.testSelectAll" />
+        <item itemvalue="JUnit.CountryMapperTest.testInsertCountry" />
         <item itemvalue="JUnit.CountryMapperTest" />
       </list>
     </recent_temporary>
@@ -389,44 +449,44 @@
       <option name="presentableId" value="Default" />
       <updated>1535450743758</updated>
       <workItem from="1535450745317" duration="16471000" />
-      <workItem from="1535588460527" duration="1059000" />
+      <workItem from="1535588460527" duration="3869000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CountryMapperTest - 2018.08.29 at 11h 10m 04s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testInsertCountry - 2018.08.30 at 10h 53m 10s.xml">
+      <configuration name="CountryMapperTest.testInsertCountry" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 11h 11m 59s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testInsertCountry - 2018.08.30 at 10h 53m 27s.xml">
+      <configuration name="CountryMapperTest.testInsertCountry" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 15h 44m 26s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testInsertCountry - 2018.08.30 at 10h 54m 34s.xml">
+      <configuration name="CountryMapperTest.testInsertCountry" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 15h 45m 11s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testInsertCountry - 2018.08.30 at 10h 54m 54s.xml">
+      <configuration name="CountryMapperTest.testInsertCountry" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 15h 46m 25s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testInsertCountry - 2018.08.30 at 10h 55m 29s.xml">
+      <configuration name="CountryMapperTest.testInsertCountry" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 15h 46m 51s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testInsertCountry - 2018.08.30 at 10h 56m 01s.xml">
+      <configuration name="CountryMapperTest.testInsertCountry" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 15h 47m 01s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testInsertCountry - 2018.08.30 at 10h 57m 33s.xml">
+      <configuration name="CountryMapperTest.testInsertCountry" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 15h 48m 26s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testInsertCountry - 2018.08.30 at 11h 13m 30s.xml">
+      <configuration name="CountryMapperTest.testInsertCountry" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 15h 48m 38s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testSelectAll - 2018.08.30 at 11h 13m 50s.xml">
+      <configuration name="CountryMapperTest.testSelectAll" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CountryMapperTest - 2018.08.29 at 15h 48m 48s.xml">
-      <configuration name="CountryMapperTest" configurationId="JUnit" />
+    <history-entry file="CountryMapperTest_testSelectAll - 2018.08.30 at 11h 18m 55s.xml">
+      <configuration name="CountryMapperTest.testSelectAll" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17530000" />
+    <option name="totallyTimeSpent" value="20340000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="42" y="23" width="1398" height="877" extended-state="0" />
@@ -434,6 +494,7 @@
     <layout>
       <window_info anchor="right" id="Palette" order="5" />
       <window_info anchor="bottom" id="TODO" order="11" />
+      <window_info anchor="bottom" id="Messages" order="4" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info id="Image Layers" order="4" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
@@ -441,12 +502,12 @@
       <window_info anchor="right" id="Maven Projects" order="4" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="3" />
-      <window_info anchor="bottom" id="Run" order="7" weight="0.48349056" />
+      <window_info active="true" anchor="bottom" id="Run" order="7" visible="true" weight="0.48318803" />
       <window_info anchor="bottom" id="Terminal" order="1" />
       <window_info id="Capture Tool" order="2" />
-      <window_info anchor="bottom" id="Database Console" visible="true" weight="0.32876712" />
+      <window_info anchor="bottom" id="Database Console" weight="0.32876712" />
       <window_info id="Designer" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.20171674" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.20171674" />
       <window_info anchor="right" id="Database" order="3" visible="true" weight="0.13733906" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
@@ -460,7 +521,6 @@
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="6" />
-      <window_info anchor="bottom" id="Messages" order="4" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -533,6 +593,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1268">
           <caret line="99" column="18" selection-start-line="99" selection-start-column="18" selection-end-line="99" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#640#641#0" expanded="true" />
+            <element signature="e#665#666#0" expanded="true" />
+            <element signature="e#699#700#0" expanded="true" />
+            <element signature="e#722#723#0" expanded="true" />
+            <element signature="e#757#758#0" expanded="true" />
+            <element signature="e#788#789#0" expanded="true" />
+            <element signature="e#836#837#0" expanded="true" />
+            <element signature="e#876#877#0" expanded="true" />
+            <element signature="e#909#910#0" expanded="true" />
+            <element signature="e#938#939#0" expanded="true" />
+            <element signature="e#982#983#0" expanded="true" />
+            <element signature="e#1018#1019#0" expanded="true" />
+            <element signature="e#1053#1054#0" expanded="true" />
+            <element signature="e#1084#1085#0" expanded="true" />
+            <element signature="e#1132#1133#0" expanded="true" />
+            <element signature="e#1172#1173#0" expanded="true" />
+            <element signature="e#1207#1208#0" expanded="true" />
+            <element signature="e#1240#1241#0" expanded="true" />
+            <element signature="e#1290#1291#0" expanded="true" />
+            <element signature="e#1334#1335#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -540,6 +623,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="988">
           <caret line="52" column="18" selection-start-line="52" selection-start-column="18" selection-end-line="52" selection-end-column="18" />
+          <folding>
+            <element signature="e#514#515#0" expanded="true" />
+            <element signature="e#539#540#0" expanded="true" />
+            <element signature="e#573#574#0" expanded="true" />
+            <element signature="e#596#597#0" expanded="true" />
+            <element signature="e#636#637#0" expanded="true" />
+            <element signature="e#672#673#0" expanded="true" />
+            <element signature="e#730#731#0" expanded="true" />
+            <element signature="e#780#781#0" expanded="true" />
+            <element signature="e#819#820#0" expanded="true" />
+            <element signature="e#854#855#0" expanded="true" />
+            <element signature="e#910#911#0" expanded="true" />
+            <element signature="e#958#959#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -554,6 +651,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="543">
           <caret line="110" column="1" lean-forward="true" selection-start-line="110" selection-start-column="1" selection-end-line="110" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#831#832#0" expanded="true" />
+            <element signature="e#856#857#0" expanded="true" />
+            <element signature="e#890#891#0" expanded="true" />
+            <element signature="e#918#919#0" expanded="true" />
+            <element signature="e#953#954#0" expanded="true" />
+            <element signature="e#984#985#0" expanded="true" />
+            <element signature="e#1032#1033#0" expanded="true" />
+            <element signature="e#1072#1073#0" expanded="true" />
+            <element signature="e#1111#1112#0" expanded="true" />
+            <element signature="e#1146#1147#0" expanded="true" />
+            <element signature="e#1202#1203#0" expanded="true" />
+            <element signature="e#1250#1251#0" expanded="true" />
+            <element signature="e#1286#1287#0" expanded="true" />
+            <element signature="e#1318#1319#0" expanded="true" />
+            <element signature="e#1368#1369#0" expanded="true" />
+            <element signature="e#1410#1411#0" expanded="true" />
+            <element signature="e#1445#1446#0" expanded="true" />
+            <element signature="e#1476#1477#0" expanded="true" />
+            <element signature="e#1524#1525#0" expanded="true" />
+            <element signature="e#1564#1565#0" expanded="true" />
+            <element signature="e#1598#1599#0" expanded="true" />
+            <element signature="e#1628#1629#0" expanded="true" />
+            <element signature="e#1674#1675#0" expanded="true" />
+            <element signature="e#1712#1713#0" expanded="true" />
+            <element signature="e#1747#1748#0" expanded="true" />
+            <element signature="e#1780#1781#0" expanded="true" />
+            <element signature="e#1830#1831#0" expanded="true" />
+            <element signature="e#1874#1875#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -613,13 +741,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/Country.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/CountryMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -630,10 +751,51 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/5551ae4b-ce3d-493a-97ee-6a5b5dfd6078/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/mybatis-3.4.6.jar!/org/apache/ibatis/session/SqlSessionFactoryBuilder.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="52" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="52" />
+          <folding>
+            <element signature="method#SqlSessionFactoryBuilder#0;class#SqlSessionFactoryBuilder#0" />
+            <element signature="method#build#1;class#SqlSessionFactoryBuilder#0" />
+            <element signature="method#build#2;class#SqlSessionFactoryBuilder#0" />
+            <element signature="method#build#3;class#SqlSessionFactoryBuilder#0" />
+            <element signature="method#build#4;class#SqlSessionFactoryBuilder#0" />
+            <element signature="method#build#5;class#SqlSessionFactoryBuilder#0" />
+            <element signature="method#build#6;class#SqlSessionFactoryBuilder#0" />
+            <element signature="method#build#7;class#SqlSessionFactoryBuilder#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/Country.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://5551ae4b-ce3d-493a-97ee-6a5b5dfd6078/schema/test_mybatis/table/country">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="27" column="26" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+        <state relative-caret-position="226">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -642,32 +804,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/CountryMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+        <state relative-caret-position="171">
+          <caret line="9" column="25" lean-forward="true" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/CountryMapperTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="114">
+          <caret line="43" column="13" lean-forward="true" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/CountryMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+        <state relative-caret-position="239">
+          <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
         </state>
       </provider>
     </entry>

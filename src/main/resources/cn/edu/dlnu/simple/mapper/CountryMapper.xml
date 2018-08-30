@@ -17,10 +17,20 @@
 
     </resultMap>
 
+
     <select id="selectAll" resultType="Country" resultMap="countryResultMap1">
 
-        SELECT ID, COUNTRY_NAME, COUNTRY_CODE FROM COUNTRY;
+        SELECT
+          ID, COUNTRY_NAME, COUNTRY_CODE
+            FROM COUNTRY;
 
     </select>
 
+    <insert id="insertCountry" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO COUNTRY(COUNTRY_NAME, COUNTRY_CODE)
+            VALUES
+                <foreach collection="list" item="item" separator=",">
+                    (#{item.countryName}, #{item.countryCode})
+                </foreach>
+    </insert>
 </mapper>

@@ -20,7 +20,16 @@
     </typeAliases>
 
 
-    <environments default="development">
+    <environments default="HO">
+        <environment id="HO">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="${ho.jdbc.driverClassName}" />
+                <property name="url" value="${ho.jdbc.url}" />
+                <property name="username" value="${ho.jdbc.username}" />
+                <property name="password" value="${ho.jdbc.password}" />
+            </dataSource>
+        </environment>
         <environment id="development">
             <transactionManager type="JDBC">
                 <property name="" value=""/>

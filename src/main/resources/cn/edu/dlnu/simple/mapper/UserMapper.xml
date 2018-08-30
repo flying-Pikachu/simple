@@ -3,49 +3,49 @@
 
 <mapper namespace="cn.edu.dlnu.simple.mapper.UserMapper">
 
-    <resultMap id="userMap" type="cn.edu.dlnu.simple.model.SysUser">
+    <!--<resultMap id="userMap" type="cn.edu.dlnu.simple.model.SysUser">-->
 
-        <id property="id" column="id"/>
-        <result property="userName" column="USER_NAME"/>
-        <result property="userPassword" column="USER_PASSWORD"/>
-        <result property="userEmail" column="USER_EMAIL"/>
-        <result property="userInfo" column="USER_INFO"/>
-        <result property="headImg" column="HEAD_IMG" jdbcType="BLOB"/>
-        <result property="createTime" column="CREATE_TIME" jdbcType="DATETIME"/>
+        <!--<id property="id" column="id"/>-->
+        <!--<result property="userName" column="USER_NAME"/>-->
+        <!--<result property="userPassword" column="USER_PASSWORD"/>-->
+        <!--<result property="userEmail" column="USER_EMAIL"/>-->
+        <!--<result property="userInfo" column="USER_INFO"/>-->
+        <!--<result property="headImg" column="HEAD_IMG" jdbcType="BLOB"/>-->
+        <!--<result property="createTime" column="CREATE_TIME" jdbcType="DATETIME"/>-->
 
-    </resultMap>
+    <!--</resultMap>-->
 
-    <!--不好,要写出全部的列名-->
-    <select id="selectById" resultMap="userMap">
-        SELECT * FROM SYS_USER WHERE ID = #{id}
-    </select>
+    <!--&lt;!&ndash;不好,要写出全部的列名&ndash;&gt;-->
+    <!--<select id="selectById" resultMap="userMap">-->
+        <!--SELECT * FROM SYS_USER WHERE ID = #{id}-->
+    <!--</select>-->
 
-    <!--不好,要写出全部的列名-->
-    <select id="selectAll" resultType="cn.edu.dlnu.simple.model.SysUser">
-        SELECT * FROM SYS_USER;
-    </select>
+    <!--&lt;!&ndash;不好,要写出全部的列名&ndash;&gt;-->
+    <!--<select id="selectAll" resultType="cn.edu.dlnu.simple.model.SysUser">-->
+        <!--SELECT * FROM SYS_USER;-->
+    <!--</select>-->
 
-    <select id="selectRolesByUserId" resultType="cn.edu.dlnu.simple.model.SysRole">
-        SELECT
-          r.ID,
-          r.ROLE_NAME roleName,
-          r.ENABLED enable,
-          r.CREATED_BY createBy,
-          r.CREATED_TIME createTime
-        FROM SYS_USER u
-        INNER JOIN SYS_USER_ROLE ur ON u.ID = ur.USER_ID
-        INNER JOIN SYS_ROLE r on ur.ROLE_ID = r.ID
-        WHERE u.id = #{userId}
-    </select>
+    <!--<select id="selectRolesByUserId" resultType="cn.edu.dlnu.simple.model.SysRole">-->
+        <!--SELECT-->
+          <!--r.ID,-->
+          <!--r.ROLE_NAME roleName,-->
+          <!--r.ENABLED enable,-->
+          <!--r.CREATED_BY createBy,-->
+          <!--r.CREATED_TIME createTime-->
+        <!--FROM SYS_USER u-->
+        <!--INNER JOIN SYS_USER_ROLE ur ON u.ID = ur.USER_ID-->
+        <!--INNER JOIN SYS_ROLE r on ur.ROLE_ID = r.ID-->
+        <!--WHERE u.id = #{userId}-->
+    <!--</select>-->
 
-    <insert id="insert">
-        INSERT INTO SYS_USER(
-        ID, USER_NAME, USER_PASSWORD, USER_EMAIL,
-        USER_INFO, HEAD_IMG, CREATE_TIME)
-        VALUES (
-        #{id}, #{userName}, #{userPassword}, #{userEmail},
-        #{userInfo}, #{headImg, jdbcType=BLOB},
-        #{createTime, jdbcType=DATETIME})
-    </insert>
+    <!--<insert id="insert">-->
+        <!--INSERT INTO SYS_USER(-->
+        <!--ID, USER_NAME, USER_PASSWORD, USER_EMAIL,-->
+        <!--USER_INFO, HEAD_IMG, CREATE_TIME)-->
+        <!--VALUES (-->
+        <!--#{id}, #{userName}, #{userPassword}, #{userEmail},-->
+        <!--#{userInfo}, #{headImg, jdbcType=BLOB},-->
+        <!--#{createTime, jdbcType=DATETIME})-->
+    <!--</insert>-->
 
 </mapper>

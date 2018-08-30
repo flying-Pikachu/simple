@@ -210,8 +210,6 @@ public class ExampleObjectFactory extends DefaultObjectFactory{
 
 默认情况下，使用的是默认的对象工厂方法 ‘’DefaultObjectFactory‘’ ，在这个方法中使用instantiateClass方法获取实体类的构造函数
 
-⚠️:文档只验证到http://www.mybatis.org/mybatis-3/zh/configuration.html#typeHandlers,明天继续进行配置文件的学习
-
 <environments>标签
 
 使用这个标签配置数据库的环境，我们在项目中可以映射到多种数据库中，在使用的时候，我们使用**SqlSessionFactory**来对数据库进行操作
@@ -347,6 +345,45 @@ id 每一个环境定义一个唯一的id
 
 
 
+创建SqlSession的方法有很多，我们一般使用四种方法
+
+```java
+public SqlSessionFactory build(Reader reader) {
+        return this.build((Reader)reader, (String)null, (Properties)null);
+    }
+
+    public SqlSessionFactory build(Reader reader, String environment) {
+        return this.build((Reader)reader, environment, (Properties)null);
+    }
+
+    public SqlSessionFactory build(Reader reader, Properties properties) {
+        return this.build((Reader)reader, (String)null, properties);
+    }
+
+    public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
+        SqlSessionFactory var5;
+        try {
+            XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);
+            var5 = this.build(parser.parse());
+        } catch (Exception var14) {
+            throw ExceptionFactory.wrapException("Error building SqlSession.", var14);
+        } finally {
+            ErrorContext.instance().reset();
+
+            try {
+                reader.close();
+            } catch (IOException var13) {
+                ;
+            }
+
+        }
+
+        return var5;
+    }
+```
+
+
+
 <mappers>标签
 
 MyBatis的SQL语句和映射配置文件
@@ -397,9 +434,13 @@ MyBatis的SQL语句和映射配置文件
 </mapper>
 ```
 
+
+
 <mapper>标签
 
 namespace 定义了当前的xml的命名空间
+
+
 
 \<select>标签
 
@@ -409,21 +450,72 @@ namespace 定义了当前的xml的命名空间
 </select>
 ```
 
-id 通过id可以找到执行哪一条语句
+- id 通过id可以找到执行哪一条语句
 
-select中返回值有两种，一种是使用resultType，另一种是使用resultMap
+- select中返回值有两种，一种是使用resultType，另一种是使用resultMap
 
-resultType 需要的是类的**权限定名或者是类的别名**，如果返回值是一个List，那么我们的返回值就需要是集合包含的值的类型，而不是集合类型，**如果返回值是集合类型，但表与实体类不匹配，那么就需要我们使用SQL语句中给字段起别名的方法进行匹配**
+  resultType 需要的是类的**权限定名或者是类的别名**，如果返回值是一个List，那么我们的返回值就需要是集合包含的值的类型，而不是集合类型，**如果返回值是集合类型，但表与实体类不匹配，那么就需要我们使用SQL语句中给字段起别名的方法进行匹配**
 
-resultMap 能够解决许多困难的映射案例，对于表中字段与实体类不匹配问题，可以使用这个来设计一个映射关系进行映射
+  resultMap 能够解决许多困难的映射案例，对于表中字段与实体类不匹配问题，可以使用这个来设计一个映射关系进行映射
 
-**上述的两个不能同时出现**
+  **上述的两个不能同时出现**
 
-resultType 当前查询的返回值类型，在之前的配置文件中<typeAliases>配置了我们的包名，所以我们直接在这个位置上进行类的查询
+  resultType 当前查询的返回值类型，在之前的配置文件中<typeAliases>配置了我们的包名，所以我们直接在这个位置上进行类的查询
 
-在我们查询全部信息的时候，不要使用*，会影响性能，要把全部需要查询的列名写出来
+  在我们查询全部信息的时候，不要使用*，会影响性能，要把全部需要查询的列名写出来
 
-⚠️：剩下的有insert等标签，过后再看
+- flushCache 将其设置为 true，任何时候只要语句被调用，都会导致本地缓存和二级缓存都会被清空，默认值：false。在每一次查询的时候，都会刷新缓存:yellow_heart:对于一级缓存和二级缓存的叙述，参考下方的下问题总结2
+
+- useCache 将其设置为 true，将会导致本条语句的结果被二级缓存，默认值：对 select 元素为 true。禁用这个select的二级缓存
+
+- parameterType 这个值不用设置，MyBatis可以自己识别
+
+- statementType STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED。
+
+
+<insert><update><delete>标签
+
+| `id`            | 命名空间中的唯一标识符，可被用来代表这条语句。               |
+| --------------- | ------------------------------------------------------------ |
+| `parameterType` | 将要传入语句的参数的完全限定类名或别名。这个属性是可选的，因为 MyBatis 可以通过 TypeHandler 推断出具体传入语句的参数，默认值为 unset。 |
+| `parameterMap`  | 这是引用外部 parameterMap 的已经被废弃的方法。使用内联参数映射和 parameterType 属性。 |
+| `flushCache`    | 将其设置为 true，任何时候只要语句被调用，都会导致本地缓存和二级缓存都会被清空，默认值：true（对应插入、更新和删除语句）。 |
+| `timeout`       | 这个设置是在抛出异常之前，驱动程序等待数据库返回请求结果的秒数。默认值为 unset（依赖驱动）。 |
+| `statementType` | STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED。 |
+
+- useGeneratedKeys **(仅对 insert 和 update 有用)**这会令 MyBatis 使用 JDBC 的 getGeneratedKeys 方法来取出由数据库内部生成的主键（比如：像 MySQL 和 SQL Server 这样的关系数据库管理系统的自动递增字段），默认值：false。所以，我们在设置为true的时候，不需要设置id就可以了
+
+  ```xml
+  <insert id="insertAuthor" useGeneratedKeys="true"
+      keyProperty="id">
+    insert into Author (username,password,email,bio)
+    values (#{username},#{password},#{email},#{bio})
+  </insert>
+  ```
+
+- keyProperty **（仅对 insert 和 update 有用）**唯一标记一个属性，MyBatis 会通过 getGeneratedKeys 的返回值或者通过 insert 语句的 selectKey 子元素设置它的键值，默认：`unset`。如果希望得到多个生成的列，也可以是逗号分隔的属性名称列表。一般就是设置自加的属性（⚠️理解的不对，之后改正）
+
+insert的多行插入
+
+```xml
+<insert id="insertAuthor" useGeneratedKeys="true"
+    keyProperty="id">
+  insert into Author (username, password, email, bio) values
+  <foreach item="item" collection="list" separator=",">
+    (#{item.username}, #{item.password}, #{item.email}, #{item.bio})
+  </foreach>
+</insert>
+```
+
+⚠️：更多的之后慢啊慢看
+
+
+
+<sql> 标签
+
+定义可重用的SQL代码段
+
+⚠️：这块挺灵活的，下午看
 
 ## XML方式的基本用法
 
@@ -470,7 +562,7 @@ Mybatis会首先检查这个包地下的全部的接口，循环进行一下的�
 
 ## 小问题总结
 
-1. 数据库中的字段与实体类中的属性不匹配
+1. 数据库中的字段与实体类中的属性不匹配 
 
    - 在mapper的SQL映射文件中的语句查找字段进行名称的重命名
 
@@ -546,3 +638,20 @@ Mybatis会首先检查这个包地下的全部的接口，循环进行一下的�
      case
 
      ⚠️:当前使用到的智勇result，之后还要进行更新
+
+2. MyBatis的缓存机制
+
+   - 一级缓存
+
+     - 一级缓存的作用域是同一个SqlSession，在同一个sqlSession中两次执行相同的sql语句，**第一次执行完毕会将数据库中查询的数据写到缓存（内存），第二次会从缓存中获取数据将不再从数据库查询，从而提高查询效率。**当一个sqlSession结束后该sqlSession中的一级缓存也就不存在了。Mybatis默认开启一级缓存。
+     - 如果**sqlSession去执行commit操作（执行插入、更新、删除），清空SqlSession中的一级缓**存，这样做的目的为了让缓存中存储的是最新的信息，避免脏读。
+
+   - 二级缓存
+
+     - 首先开启二级缓存
+
+       ```xml
+       <setting name="cacheEnabled"value="true"/>
+       ```
+
+     - 跟一级缓存类似，这个时候，我们的缓存数据是SqlSession共享的，所有的SqlSession都可以访问到
