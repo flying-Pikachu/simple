@@ -29,9 +29,9 @@
         SELECT
           r.ID,
           r.ROLE_NAME roleName,
-          r.ENABLE enable,
-          r.CREATE_BY createBy,
-          r.CREATE_TIME createTime
+          r.ENABLED enable,
+          r.CREATED_BY createBy,
+          r.CREATED_TIME createTime
         FROM SYS_USER u
         INNER JOIN SYS_USER_ROLE ur ON u.ID = ur.USER_ID
         INNER JOIN SYS_ROLE r on ur.ROLE_ID = r.ID

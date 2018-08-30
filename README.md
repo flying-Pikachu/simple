@@ -109,27 +109,243 @@ public class Country
 
 的形式进行别名的使用
 
+<typeHandlers>标签
+
+这个标签用来做jdbc类型和java类型的转换
+
+默认情况下，mybatis已经做好了转换的定义，如果我们想要自定义一个，我们需要继承一个BaseTypeHandler类
+
+```java
+@MappedJdbcTypes(JdbcType.VARCHAR)  
+//此处如果不用注解指定jdbcType, 那么，就可以在配置文件中通过"jdbcType"属性指定， 同理， javaType 也可通过 @MappedTypes指定
+public class ExampleTypeHandler extends BaseTypeHandler<String> {
+ 
+  @Override
+  public void setNonNullParameter(PreparedStatement ps, int i, String parameter, JdbcType jdbcType) throws SQLException {
+    ps.setString(i, parameter);
+  }
+ 
+  @Override
+  public String getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    return rs.getString(columnName);
+  }
+ 
+  @Override
+  public String getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    return rs.getString(columnIndex);
+  }
+ 
+  @Override
+  public String getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    return cs.getString(columnIndex);
+  }
+}
+```
+
+```xml
+<!-- mybatis-config.xml -->
+<typeHandlers>
+  <typeHandler handler="org.mybatis.example.ExampleTypeHandler"/>
+</typeHandlers>
+```
+
+使用了这个以后覆盖已经存在的处理 Java 的 String 类型属性和 VARCHAR 参数及结果的类型处理器。
+
+如果在java文件中我们没有定义映射关系，我们需要在配置文件中进行配置
+
+```xml
+
+<typeHandlers>
+      <!-- 
+          当配置package的时候，mybatis会去配置的package扫描TypeHandler
+          <package name="com.dy.demo"/>
+		  当我们使用这个的时候，需要在java文件中使用注解进行配置
+       -->
+      
+      <!-- handler属性直接配置我们要指定的TypeHandler -->
+      <typeHandler handler=""/>
+      
+      <!-- javaType 配置java类型，例如String, 如果配上javaType, 那么指定的typeHandler就只作用于指定的类型 -->
+      <typeHandler javaType="" handler=""/>
+      
+      <!-- jdbcType 配置数据库基本数据类型，例如varchar, 如果配上jdbcType, 那么指定的typeHandler就只作用于指定的类型  -->
+      <typeHandler jdbcType="" handler=""/>
+      
+      <!-- 也可两者都配置 -->
+      <typeHandler javaType="" jdbcType="" handler=""/>
+      
+  </typeHandlers>
+```
+
+这个用到的不多，因为对应的关系在MyBatis中实现的很多了
+
+<objectFactory>标签
+
+在我们得到我们的查询结果的时候，我们需要把我们的数据封装到一个对象中，在生成实例的时候，我们可以自定义这个过程
+
+```java
+import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
+ 
+import com.majing.learning.mybatis.entity.User;
+ 
+public class ExampleObjectFactory extends DefaultObjectFactory{
+ 
+	private static final long serialVersionUID = 3608715667301891724L;
+ 
+	@Override
+	public <T> T create(Class<T> type) {
+		T result = super.create(type);
+		if(type.equals(User.class)){
+			((User)result).setAuthor("马靖");
+		}
+		return result;
+	}
+
+}
+```
+
+```xml
+<objectFactory type="com.majing.learning.mybatis.reflect.objectfactory.ExampleObjectFactory"></objectFactory>
+```
+
+默认情况下，使用的是默认的对象工厂方法 ‘’DefaultObjectFactory‘’ ，在这个方法中使用instantiateClass方法获取实体类的构造函数
+
 ⚠️:文档只验证到http://www.mybatis.org/mybatis-3/zh/configuration.html#typeHandlers,明天继续进行配置文件的学习
 
 <environments>标签
 
-```xml
-<environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC">
-                <property name="" value=""></property>
-            </transactionManager>
-            <dataSource type="UNPOOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"></property>
-                <property name="url" value="jdbc:mysql://localhost:3306/TEST_MYBATIS"></property>
-                <property name="username" value="root"></property>
-                <property name="password" value="123456"></property>
-            </dataSource>
-        </environment>
-    </environments>
+使用这个标签配置数据库的环境，我们在项目中可以映射到多种数据库中，在使用的时候，我们使用**SqlSessionFactory**来对数据库进行操作
+
+```java
+public class CountryMapperTest {
+
+    private static SqlSessionFactory sqlSessionFactory;
+
+    @BeforeClass
+    public static void init(){
+        try {
+            // 读入配置文件
+            Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+            reader.close();
+        } catch (IOException ignore) {
+            ignore.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSelectAll(){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            List<Country> countryList = sqlSession.selectList("selectAll");
+            printCountryList(countryList);
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    private void printCountryList(List<Country> countryList){
+        for(Country country : countryList){
+            System.out.printf("%-4d%4s%4s\n",country.getId(), country.getCountryName(), country.getCountryCode());
+        }
+    }
+}
+
+
 ```
 
-配置数据库连接
+当我们配置这个的时候，我们需要了解到，每一个SqlSessionFactory只能对应一个环境
+
+```xml
+<environments default="development">
+    <environment id="development">
+        <transactionManager type="JDBC">
+            <property name="" value=""></property>
+        </transactionManager>
+        <dataSource type="UNPOOLED">
+            <property name="driver" value="com.mysql.jdbc.Driver"></property>
+            <property name="url" value="jdbc:mysql://localhost:3306/TEST_MYBATIS"></property>
+            <property name="username" value="root"></property>
+            <property name="password" value="123456"></property>
+        </dataSource>
+    </environment>
+</environments>
+```
+
+当我们配置多个环境的时候，我们需要定义多个环境
+
+```xml
+<environments default="HO">  
+        <environment id="HD">  
+            <transactionManager type="JDBC" />  
+            <dataSource type="POOLED">  
+                <property name="driver" value="${hd.jdbc.driverClassName}" />  
+                <property name="url" value="${hd.jdbc.url}" />  
+                <property name="username" value="${hd.jdbc.username}" />  
+                <property name="password" value="${hd.jdbc.password}" />  
+            </dataSource>  
+        </environment>  
+        <environment id="HO">  
+            <transactionManager type="JDBC" />  
+            <dataSource type="POOLED">  
+                <property name="driver" value="${ho.jdbc.driverClassName}" />  
+                <property name="url" value="${ho.jdbc.url}" />  
+                <property name="username" value="${ho.jdbc.username}" />  
+                <property name="password" value="${ho.jdbc.password}" />  
+            </dataSource>  
+        </environment>  
+    </environments>  
+```
+
+default 表示的意思是默认的工作环境，下面的环境id对应的就是默认的
+
+id 每一个环境定义一个唯一的id
+
+<transactionManager> 事务处理器 type=”[JDBC|MANAGED]” 
+
+一般使用JDBC直接使用了 JDBC 的提交和回滚设置，它依赖于从数据源得到的连接来管理事务作用域。后面的那个一般不用
+
+<dataSource> 配置连接对象的资源，就是进行连接配置  type=”[UNPOOLED|POOLED|JNDI]”
+
+**UNPOOLED**– 这个数据源的实现只是每次被请求时打开和关闭连接。虽然有点慢，但对于在数据库连接可用性方面没有太高要求的简单应用程序来说，是一个很好的选择。 不同的数据库在性能方面的表现也是不一样的，对于某些数据库来说，使用连接池并不重要，这个配置就很适合这种情形。UNPOOLED 类型的数据源仅仅需要配置以下 5 种属性：
+
+- `driver` – 这是 JDBC 驱动的 Java 类的完全限定名（并不是 JDBC 驱动中可能包含的数据源类）。
+- `url` – 这是数据库的 JDBC URL 地址。
+- `username` – 登录数据库的用户名。
+- `password` – 登录数据库的密码。
+- `defaultTransactionIsolationLevel` – 默认的连接事务隔离级别。
+
+作为可选项，你也可以传递属性给数据库驱动。要这样做，属性的前缀为“driver.”，例如：
+
+- `driver.encoding=UTF8`
+
+这将通过 DriverManager.getConnection(url,driverProperties) 方法传递值为 `UTF8` 的 `encoding` 属性给数据库驱动。
+
+**POOLED**– 这种数据源的实现利用“池”的概念将 JDBC 连接对象组织起来，避免了创建新的连接实例时所必需的初始化和认证时间。 这是一种使得并发 Web 应用快速响应请求的流行处理方式。
+
+除了上述提到 UNPOOLED 下的属性外，还有更多属性用来配置 POOLED 的数据源：
+
+- `poolMaximumActiveConnections` – 在任意时间可以存在的活动（也就是正在使用）连接数量，默认值：10
+- `poolMaximumIdleConnections` – 任意时间可能存在的空闲连接数。
+- `poolMaximumCheckoutTime` – 在被强制返回之前，池中连接被检出（checked out）时间，默认值：20000 毫秒（即 20 秒）
+- `poolTimeToWait` – 这是一个底层设置，如果获取连接花费了相当长的时间，连接池会打印状态日志并重新尝试获取一个连接（避免在误配置的情况下一直安静的失败），默认值：20000 毫秒（即 20 秒）。
+- `poolMaximumLocalBadConnectionTolerance` – 这是一个关于坏连接容忍度的底层设置， 作用于每一个尝试从缓存池获取连接的线程. 如果这个线程获取到的是一个坏的连接，那么这个数据源允许这个线程尝试重新获取一个新的连接，但是这个重新尝试的次数不应该超过 `poolMaximumIdleConnections` 与 `poolMaximumLocalBadConnectionTolerance` 之和。 默认值：3 (新增于 3.4.5)
+- `poolPingQuery` – 发送到数据库的侦测查询，用来检验连接是否正常工作并准备接受请求。默认是“NO PING QUERY SET”，这会导致多数数据库驱动失败时带有一个恰当的错误消息。
+- `poolPingEnabled` – 是否启用侦测查询。若开启，需要设置 `poolPingQuery` 属性为一个可执行的 SQL 语句（最好是一个速度非常快的 SQL 语句），默认值：false。
+- `poolPingConnectionsNotUsedFor` – 配置 poolPingQuery 的频率。可以被设置为和数据库连接超时时间一样，来避免不必要的侦测，默认值：0（即所有连接每一时刻都被侦测 — 当然仅当 poolPingEnabled 为 true 时适用）。
+
+**JNDI** – 这个数据源的实现是为了能在如 EJB 或应用服务器这类容器中使用，容器可以集中或在外部配置数据源，然后放置一个 JNDI 上下文的引用。这种数据源配置只需要两个属性：
+
+- `initial_context` – 这个属性用来在 InitialContext 中寻找上下文（即，initialContext.lookup(initial_context)）。这是个可选属性，如果忽略，那么 data_source 属性将会直接从 InitialContext 中寻找。
+- `data_source` – 这是引用数据源实例位置的上下文的路径。提供了 initial_context 配置时会在其返回的上下文中进行查找，没有提供时则直接在 InitialContext 中查找。
+
+和其他数据源配置类似，可以通过添加前缀“env.”直接把属性传递给初始上下文。比如：
+
+- `env.encoding=UTF8`
+
+这就会在初始上下文（InitialContext）实例化时往它的构造方法传递值为 `UTF8` 的 `encoding` 属性。
+
+
 
 <mappers>标签
 
@@ -141,7 +357,32 @@ MyBatis的SQL语句和映射配置文件
 </mappers>
 ```
 
+告诉Mybatis去哪里找这个映射文件
 
+```xml
+<!-- 使用相对于类路径的资源引用 -->
+<mappers>
+  <mapper resource="org/mybatis/builder/AuthorMapper.xml"/>
+  <mapper resource="org/mybatis/builder/BlogMapper.xml"/>
+  <mapper resource="org/mybatis/builder/PostMapper.xml"/>
+</mappers>
+<!-- 使用完全限定资源定位符（URL） -->
+<mappers>
+  <mapper url="file:///var/mappers/AuthorMapper.xml"/>
+  <mapper url="file:///var/mappers/BlogMapper.xml"/>
+  <mapper url="file:///var/mappers/PostMapper.xml"/>
+</mappers>
+<!-- 使用映射器接口实现类的完全限定类名 -->
+<mappers>
+  <mapper class="org.mybatis.builder.AuthorMapper"/>
+  <mapper class="org.mybatis.builder.BlogMapper"/>
+  <mapper class="org.mybatis.builder.PostMapper"/>
+</mappers>
+<!-- 将包内的映射器接口实现全部注册为映射器 -->
+<mappers>
+  <package name="org.mybatis.builder"/>
+</mappers>
+```
 
 ## Mapper映射配置文件
 
