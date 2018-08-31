@@ -1106,7 +1106,56 @@ SysPrivilege{Id=4, privilegeName='人员维护', privilegeURL='/persons'}, SysPr
 
 ### 鉴别器
 
+类似于java的switch
 
+<discriminator>标签
+
+| column     | 设置鉴别比较级的列，就是对表中的哪一列进行操作 相当于switch() |
+| :--------- | ------------------------------------------------------------ |
+| javaType   | 指定进行 switch操作的列的类型                                |
+| value      | 指定匹配值，相当于case()                                     |
+| resultMap  | 匹配后进行的映射，优先于**resultType**                       |
+| resultType | 匹配后的映射                                                 |
+
+```
+DEBUG [main] - ==>  Preparing: SELECT ID ROLE_ID, ROLE_NAME, ENABLED, CREATED_BY CREATE_BY, CREATED_TIME ROLE_CREATED_TIME FROM SYS_ROLE INNER JOIN SYS_USER_ROLE sur ON sur.ROLE_ID = SYS_ROLE.ID WHERE sur.USER_ID = ? 
+
+DEBUG [main] - ==> Parameters: 1(Long)
+
+TRACE [main] - <==    Columns: ROLE_ID, ROLE_NAME, ENABLED, CREATE_BY, ROLE_CREATED_TIME
+TRACE [main] - <==        Row: 1, 管理员, 0, 1, 2016-04-01 17:00:00.0
+TRACE [main] - <==        Row: 2, 普通用户, 1, 1, 2016-04-01 17:00:00.0
+DEBUG [main] - <==      Total: 2
+
+SysRole{Id=1, roleName='管理员', enable='0', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, sysPrivileges=[]}// 由于我的语句的问题，没有获得结果，之后修改
+
+SysRole{Id=2, roleName='普通用户', enable='1', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, sysPrivileges=null}
+```
+
+```xml
+<resultMap id="rolePrivilegeListMapChoose" type="cn.edu.dlnu.simple.model.SysRole">
+        <discriminator javaType="int" column="ENABLED">
+            <case value="0" resultMap="rolePrivilegesMap"/>
+            <case value="1" resultMap="roleMap"/>
+        </discriminator>
+    </resultMap>
+
+<select id="selectRoleByUserIdChoose" resultMap="rolePrivilegeListMapChoose">
+        SELECT
+            ID ROLE_ID,
+            ROLE_NAME,
+            ENABLED,
+            CREATED_BY CREATE_BY,
+            CREATED_TIME ROLE_CREATED_TIME
+        FROM SYS_ROLE
+        INNER JOIN SYS_USER_ROLE sur ON sur.ROLE_ID = SYS_ROLE.ID
+        WHERE sur.USER_ID = #{userId}
+    </select>
+```
+
+查询结果通过case发送给不同的resultMap
+
+## 存储过程
 
 ## 小问题总结
 

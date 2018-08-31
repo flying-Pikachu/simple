@@ -45,4 +45,15 @@ public class RoleMapperTest {
         System.out.println(sysRole.toString());
         sqlSession.close();
     }
+
+    @Test
+    public void testSelectRoleByUserIdChoose() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+        List<SysRole> sysRoles = roleMapper.selectRoleByUserIdChoose(1l);
+        for (SysRole sysRole : sysRoles) {
+            System.out.println(sysRole);
+        }
+        sqlSession.close();
+    }
 }

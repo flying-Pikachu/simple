@@ -15,4 +15,22 @@
         <collection property="sysPrivileges" javaType="List" ofType="cn.edu.dlnu.simple.model.SysPrivilege" resultMap="cn.edu.dlnu.simple.mapper.PrivilegeMapper.privilegeMap"/>
     </resultMap>
 
+    <resultMap id="rolePrivilegeListMapChoose" type="cn.edu.dlnu.simple.model.SysRole">
+        <discriminator javaType="int" column="ENABLED">
+            <case value="0" resultMap="rolePrivilegesMap"/>
+            <case value="1" resultMap="roleMap"/>
+        </discriminator>
+    </resultMap>
+    
+    <select id="selectRoleByUserIdChoose" resultMap="rolePrivilegeListMapChoose">
+        SELECT
+            ID ROLE_ID,
+            ROLE_NAME,
+            ENABLED,
+            CREATED_BY CREATE_BY,
+            CREATED_TIME ROLE_CREATED_TIME
+        FROM SYS_ROLE
+        INNER JOIN SYS_USER_ROLE sur ON sur.ROLE_ID = SYS_ROLE.ID
+        WHERE sur.USER_ID = #{userId}
+    </select>
 </mapper>

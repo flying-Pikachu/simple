@@ -94,4 +94,14 @@ public interface RoleMapper {
             "delete from sys role where id = #{id }"
     })
     int deleteById(Long id);
+
+    /**
+     * create by: xzp
+     * description: 找到某一个用户的全部的角色信息
+     * create time: 3:06 PM 31/08/2018
+     *
+     * @param id
+     * @return java.util.List<cn.edu.dlnu.simple.model.SysRole>
+     */
+    List<SysRole> selectRoleByUserIdChoose(Long id);
 }
