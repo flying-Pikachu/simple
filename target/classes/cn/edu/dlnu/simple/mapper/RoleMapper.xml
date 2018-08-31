@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.edu.dlnu.simple.mapper.RoleMapper">
+    
+    <resultMap id="roleMap" type="cn.edu.dlnu.simple.model.SysRole">
+        <id property="Id" column="ROLE_ID"/>
+        <result property="roleName" column="ROLE_NAME"/>
+        <result property="enable" column="ENABLED"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="ROLE_CREATED_TIME"/>
+    </resultMap>
 
+    <resultMap id="rolePrivilegesMap" type="cn.edu.dlnu.simple.model.SysRole" extends="roleMap">
+        <collection property="sysPrivileges" javaType="List" ofType="cn.edu.dlnu.simple.model.SysPrivilege" resultMap="cn.edu.dlnu.simple.mapper.PrivilegeMapper.privilegeMap"/>
+    </resultMap>
 
 </mapper>

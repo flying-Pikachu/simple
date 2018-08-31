@@ -14,6 +14,21 @@
         <result property="createTime" column="CREATE_TIME" jdbcType="DATE"/>
 
     </resultMap>
+    
+    <!--<resultMap id="userRoleMap" type="cn.edu.dlnu.simple.model.SysUser" extends="userMap">-->
+        <!--<result property="sysRole.Id" column="ROLE_ID"/>-->
+        <!--<result property="sysRole.roleName" column="ROLE_NAME"/>-->
+        <!--<result property="sysRole.enable" column="ENABLED"/>-->
+        <!--<result property="sysRole.createBy" column="CREATED_BY"/>-->
+        <!--<result property="sysRole.createTime" column="ROLE_CREATED_TIME"/>-->
+    <!--</resultMap>-->
+    <resultMap id="userRoleMap" type="cn.edu.dlnu.simple.model.SysUser" extends="userMap">
+        <collection property="sysRoleList" javaType="List" ofType="cn.edu.dlnu.simple.model.SysRole" resultMap="cn.edu.dlnu.simple.mapper.RoleMapper.roleMap"/>
+    </resultMap>
+
+    <resultMap id="userRolePrivilege" type="cn.edu.dlnu.simple.model.SysUser" extends="userRoleMap">
+        <collection property="sysRoleList" javaType="List" ofType="cn.edu.dlnu.simple.model.SysRole" resultMap="cn.edu.dlnu.simple.mapper.RoleMapper.rolePrivilegesMap"/>
+    </resultMap>
 
     <!--不好,要写出全部的列名-->
     <select id="selectById" resultMap="userMap">
@@ -124,6 +139,65 @@
         </foreach>
     </select>
 
+    <!--<select id="selectUserAndRoleById" resultType="cn.edu.dlnu.simple.model.SysUser">-->
+        <!--SELECT u.ID id,-->
+            <!--u.USER_NAME userName,-->
+            <!--u.USER_PASSWORD userPassword,-->
+            <!--u.USER_EMAIL userEmail,-->
+            <!--u.CREATE_TIME createTime,-->
+            <!--u.HEAD_IMG headImg,-->
+            <!--u.USER_INFO userInfo,-->
+            <!--r.ID "sysRole.Id",-->
+            <!--r.ROLE_NAME "sysRole.roleName",-->
+            <!--r.ENABLED "sysRole.enable",-->
+            <!--r.CREATED_BY "sysRole.createBy",-->
+            <!--r.CREATED_TIME "sysRole.createTime"-->
+        <!--FROM SYS_USER u-->
+            <!--INNER JOIN SYS_USER_ROLE ur on u.ID = ur.USER_ID-->
+            <!--INNER JOIN SYS_ROLE r on r.ID = ur.ROLE_ID-->
+        <!--WHERE u.ID = #{id}-->
+    <!--</select>-->
+    <select id="selectUserAndRoleById" resultMap="userRoleMap">
+        SELECT u.ID,
+               u.USER_NAME,
+               u.USER_PASSWORD,
+               u.USER_EMAIL,
+               u.CREATE_TIME,
+               u.HEAD_IMG,
+               u.USER_INFO,
+               r.ID ROLE_ID,
+               r.ROLE_NAME,
+               r.ENABLED ENABLED,
+               r.CREATED_BY CREATE_BY,
+               r.CREATED_TIME ROLE_CREATED_TIME
+        FROM SYS_USER u
+            INNER JOIN SYS_USER_ROLE ur on u.ID = ur.USER_ID
+            INNER JOIN SYS_ROLE r on r.ID = ur.ROLE_ID
+        WHERE u.ID = #{id}
+    </select>
+
+    <select id="selectAllUserAndRoles" resultMap="userRolePrivilege">
+        SELECT u.ID,
+            u.USER_NAME,
+            u.USER_PASSWORD,
+            u.USER_EMAIL,
+            u.CREATE_TIME,
+            u.HEAD_IMG,
+            u.USER_INFO,
+            r.ID ROLE_ID,
+            r.ROLE_NAME,
+            r.ENABLED ENABLED,
+            r.CREATED_BY CREATE_BY,
+            r.CREATED_TIME ROLE_CREATED_TIME,
+            sr.ID SYS_PRIVILEGE_ID,
+            sr.PRIVILEGE_NAME PRIVILEGE_NAME,
+            sr.PRIVILEGE_URL PRIVILEGE_URL
+        FROM SYS_USER u
+            INNER JOIN SYS_USER_ROLE ur on u.ID = ur.USER_ID
+            INNER JOIN SYS_ROLE r on r.ID = ur.ROLE_ID
+            INNER JOIN SYS_ROLE_PRIVILEGE srp on r.ID = srp.ROLE_ID
+            INNER JOIN SYS_PRIVILEGE sr on sr.ID = srp.PRIVILEGE_ID
+    </select>
 
 
 </mapper>

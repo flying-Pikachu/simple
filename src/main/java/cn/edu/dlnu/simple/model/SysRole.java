@@ -1,6 +1,7 @@
 package cn.edu.dlnu.simple.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +23,8 @@ public class SysRole {
 
     private Date createTime;
 
+    private List<SysPrivilege> sysPrivileges;
+
     public SysRole() {
 
     }
@@ -32,6 +35,15 @@ public class SysRole {
         this.enable = enable;
         this.createBy = createBy;
         this.createTime = createTime;
+    }
+
+    public SysRole(Long id, String roleName, String enable, String createBy, Date createTime, List<SysPrivilege> sysPrivileges) {
+        Id = id;
+        this.roleName = roleName;
+        this.enable = enable;
+        this.createBy = createBy;
+        this.createTime = createTime;
+        this.sysPrivileges = sysPrivileges;
     }
 
     public Long getId() {
@@ -74,26 +86,12 @@ public class SysRole {
         this.createTime = createTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SysRole sysRole = (SysRole) o;
-        return Objects.equals(Id, sysRole.Id) &&
-                Objects.equals(roleName, sysRole.roleName) &&
-                Objects.equals(enable, sysRole.enable) &&
-                Objects.equals(createBy, sysRole.createBy) &&
-                Objects.equals(createTime, sysRole.createTime);
+    public List<SysPrivilege> getSysPrivileges() {
+        return sysPrivileges;
     }
 
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(Id, roleName, enable, createBy, createTime);
+    public void setSysPrivileges(List<SysPrivilege> sysPrivileges) {
+        this.sysPrivileges = sysPrivileges;
     }
 
     @Override
@@ -104,6 +102,7 @@ public class SysRole {
                 ", enable='" + enable + '\'' +
                 ", createBy='" + createBy + '\'' +
                 ", createTime=" + createTime +
+                ", sysPrivileges=" + sysPrivileges +
                 '}';
     }
 }

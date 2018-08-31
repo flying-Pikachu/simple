@@ -52,4 +52,23 @@ public interface UserMapper {
      * @return java.util.List<cn.edu.dlnu.simple.model.SysUser>
      */
     List<SysUser> selectByidList(@Param("idList") List<Long> idList);
+
+    /**
+     * create by: xzp
+     * description:通过id查找用户的名称和角色
+     * create time: 9:24 AM 31/08/2018
+     *
+     * @param id
+     * @return java.util.List<cn.edu.dlnu.simple.model.SysUser>
+     */
+    List<SysUser> selectUserAndRoleById(Long id);
+
+    /**
+     * create by: xzp
+     * description: 得到全部的用户以及角色
+     * create time: 1:44 PM 31/08/2018
+     *
+     * @return java.util.List<cn.edu.dlnu.simple.model.SysUser>
+     */
+    List<SysUser> selectAllUserAndRoles();
 }

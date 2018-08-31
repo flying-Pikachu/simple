@@ -52,4 +52,26 @@ public class UserMapperTest {
         }
         sqlSession.close();
     }
+
+    @Test
+    public void testSelectUserAndRoleById() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        List<SysUser> sysUser = userMapper.selectUserAndRoleById(1l);
+        for (SysUser sysUser1 : sysUser) {
+            System.out.println(sysUser1);
+        }
+        sqlSession.close();
+    }
+
+    @Test
+    public void testSelectAllUserAndRoles() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        List<SysUser> sysUsers = userMapper.selectAllUserAndRoles();
+        for (SysUser sysUser : sysUsers) {
+            System.out.println(sysUser);
+        }
+        sqlSession.close();
+    }
 }

@@ -828,6 +828,284 @@ List<SysUser> selectByidList(@Param("idList") List<Long> idList);
 
 ⚠️：明天继续
 
+## 高级查询
+
+### 一对一映射
+
+#### 自动映射处理一对一映射
+
+```xml
+<select id="selectUserAndRoleById" resultType="cn.edu.dlnu.simple.model.SysUser">
+    SELECT u.ID id,
+    u.USER_NAME userName,
+    u.USER_PASSWORD userPassword,
+    u.USER_EMAIL userEmail,
+    u.CREATE_TIME createTime,
+    u.HEAD_IMG headImg,
+    u.USER_INFO userInfo,
+    r.ID "sysRole.Id",
+    r.ROLE_NAME "sysRole.roleName",
+    r.ENABLED "sysRole.enable",
+    r.CREATED_BY "sysRole.createBy",
+    r.CREATED_TIME "sysRole.createTime"
+    FROM SYS_USER u
+    INNER JOIN SYS_USER_ROLE ur on u.ID = ur.USER_ID
+    INNER JOIN SYS_ROLE r on r.ID = ur.ROLE_ID
+    WHERE u.ID = #{id}
+</select>
+```
+
+直接在列名的位置上添加实体类中的别名，如果里面有其他的对象，我们需要使用对象引用.属性的方式
+
+`r.ID "sysRole.Id"`
+
+#### 使用resultMap进行映射关系的配置
+
+```xml
+<resultMap id="userMap" type="cn.edu.dlnu.simple.model.SysUser">
+    <id property="id" column="id"/>
+    <result property="userName" column="USER_NAME"/>
+    <result property="userPassword" column="USER_PASSWORD"/>
+    <result property="userEmail" column="USER_EMAIL"/>
+    <result property="userInfo" column="USER_INFO"/>
+    <result property="headImg" column="HEAD_IMG" jdbcType="BLOB"/>
+    <result property="createTime" column="CREATE_TIME" jdbcType="DATE"/>
+</resultMap>
+<resultMap id="userRoleMap" type="cn.edu.dlnu.simple.model.SysUser" extends="userMap">
+        <result property="sysRole.Id" column="ROLE_ID"/>
+        <result property="sysRole.roleName" column="ROLE_NAME"/>
+        <result property="sysRole.enable" column="ENABLED"/>
+        <result property="sysRole.createBy" column="CREATED_BY"/>
+        <result property="sysRole.createTime" column="ROLE_CREATED_TIME"/>
+    </resultMap>
+<select id="selectUserAndRoleById" resultMap="userRoleMap">
+        SELECT u.ID,
+               u.USER_NAME,
+               u.USER_PASSWORD,
+               u.USER_EMAIL,
+               u.CREATE_TIME,
+               u.HEAD_IMG,
+               u.USER_INFO,
+               r.ID ROLE_ID,
+               r.ROLE_NAME,
+               r.ENABLED,
+               r.CREATED_BY,
+               r.CREATED_TIME ROLE_CREATED_TIME
+        FROM SYS_USER u
+            INNER JOIN SYS_USER_ROLE ur on u.ID = ur.USER_ID
+            INNER JOIN SYS_ROLE r on r.ID = ur.ROLE_ID
+        WHERE u.ID = #{id}
+    </select>
+```
+
+:yellow_heart: 在resultMap中的**column属性里不要指出表名**,如果有与别的表重名的情况，需要给列名起别名，然后在这个属性里添加别名引用
+
+⚠️：下面这个代码有问题，property属性没有明白
+
+使用<association>标签进行匹配
+
+```xml
+<resultMap id="userRoleMap" type="cn.edu.dlnu.simple.model.SysUser" extends="userMap">
+    <association property="sysRole" columnPrefix="role_" 			                                                                      		       javaType="cn.edu.dlnu.simple.model.SysRole">
+        <result property="sysRole.Id" column="ROLE_ID"/>
+        <result property="sysRole.roleName" column="ROLE_NAME"/>
+        <result property="sysRole.enable" column="ENABLED"/>
+        <result property="sysRole.createBy" column="CREATED_BY"/>
+        <result property="sysRole.createTime" column="ROLE_CREATED_TIME"/>
+    </association>
+</resultMap>
+```
+
+property 属性对应实体类的属性名
+
+javaType 实体类的类型
+
+resultMap 可以使用已经设计好了的map
+
+columnPrefix 设置前缀，子标签result中的column我们就可以不用写前缀了,⚠️：当前没有使用明白，暂时不要用这个标签
+
+### 一对多
+
+#### collection集合的嵌套结果映射
+
+```xml
+<resultMap id="userRoleMap" type="cn.edu.dlnu.simple.model.SysUser" extends="userMap">
+    <collection property="sysRoleList" javaType="List" ofType="cn.edu.dlnu.simple.model.SysRole">
+        <id property="Id" column="ROLE_ID"/>
+        <result property="roleName" column="ROLE_NAME"/>
+        <result property="enable" column="ENABLED"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="ROLE_CREATED_TIME"/>
+    </collection>
+</resultMap>
+```
+
+对于一对多关系的时候，我们在把多个关系封装到对象中时，需要使用上面collection标签
+
+property 定义的是多个关系的实体类中的引用
+
+javaType 定义的是集合类型
+
+ofType 定义的是集合中存储的类型
+
+resultMap 我们可以应用其他地方定义好了的
+
+:yellow_heart:如果我们想要引用其他mapper中定义的resultMap，我们需要把包名进行引用
+
+```xml
+<resultMap id="userRoleMap" type="cn.edu.dlnu.simple.model.SysUser" extends="userMap">
+        <collection property="sysRoleList" javaType="List" 	ofType="cn.edu.dlnu.simple.model.SysRole" 	resultMap="cn.edu.dlnu.simple.mapper.RoleMapper.roleMap">
+        </collection>
+    </resultMap>
+```
+
+跟原来一样，通过包名来找到xml，然后在找到对应的resultMap
+
+:yellow_heart:Mybatis合并重点(在处理一对多关系的时候进行的合并，说白了就是什么情况下要合并collection属性找到的值)
+
+```
+TRACE [main] - <==    Columns: ID, USER_NAME, USER_PASSWORD, USER_EMAIL, CREATE_TIME, HEAD_IMG, USER_INFO, ROLE_ID, ROLE_NAME, ENABLED, CREATE_BY, ROLE_CREATED_TIME
+
+TRACE [main] - <==    Columns: ID, USER_NAME, USER_PASSWORD, USER_EMAIL, CREATE_TIME, HEAD_IMG, USER_INFO, ROLE_ID, ROLE_NAME, ENABLED, CREATE_BY, ROLE_CREATED_TIME
+
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 1, 管理员, 1, 1, 2016-04-01 17:00:00.0
+
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 2, 普通用户, 1, 1, 2016-04-01 17:00:00.0
+
+DEBUG [main] - <==      Total: 2
+
+SysUser{id=1, userName='admin', userPassword='123456', userEmail='admin@mybatis.com', userInfo='管理员', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, sysRoleList=[SysRole{Id=1, roleName='管理员', enable='1', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016}, SysRole{Id=2, roleName='普通用户', enable='1', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016}]}
+```
+
+我们可以看出在日志中查询到了两条数据，但是最后合并成了一条
+
+在处理结果的时候，首先先判断结果是否相等，如果结果相同，就保留第一个结果
+
+判断结果相同的方法在于我们配置的<id>属性，我们在resultMap标签下面定义的id属性，如果相同则合并，如果我们没有定义<id>标签，那么Mybatis就会匹配所有的result属性，全都相同了就合并，**尽量使用id属性定义**，效率高
+
+在比较的时候，会对嵌套查询的每一级对象进行查询。在这一级中，如果定义了id标签，就按照id标签中的属性进行查询，没有定义id，就按照全部的result标签的值进行匹配，当匹配相同的时候，在下一级进行信息的合并
+
+e.g.我们现在有三条数据
+
+```
+TRACE [main] - <==    Columns: ID, USER_NAME, USER_PASSWORD, USER_EMAIL, CREATE_TIME, HEAD_IMG, USER_INFO, ROLE_ID, ROLE_NAME, ENABLED, CREATE_BY, ROLE_CREATED_TIME
+
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 1, 管理员, 1, 1, 2016-04-01 17:00:00.0
+
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 2, 普通用户, 1, 1, 2016-04-01 17:00:00.0
+
+TRACE [main] - <==        Row: 2, test, 123456, test@mybatis.com, 2016-04-02 17:00:00.0, 
+<<BLOB>>, <<BLOB>>, 2, 普通用户, 1, 1, 2016-04-01 17:00:00.0
+```
+
+```xml
+<resultMap id="userMap" type="cn.edu.dlnu.simple.model.SysUser">
+    <id property="userPassword" column="USER_PASSWORD"/>
+    <result property="userName" column="USER_NAME"/>
+    <result property="id" column="ID"/>
+    <result property="userEmail" column="USER_EMAIL"/>
+    <result property="userInfo" column="USER_INFO"/>
+    <result property="headImg" column="HEAD_IMG" jdbcType="BLOB"/>
+    <result property="createTime" column="CREATE_TIME" jdbcType="DATE"/>
+</resultMap>
+<resultMap id="roleMap" type="cn.edu.dlnu.simple.model.SysRole">
+        <id property="Id" column="ROLE_ID"/>
+        <result property="roleName" column="ROLE_NAME"/>
+        <result property="enable" column="ENABLED"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="ROLE_CREATED_TIME"/>
+    </resultMap>
+```
+
+**在上面的例子中，我们定义的resultMap的id为userPassword，按照我们的匹配要求，在userMap这一级中由于我们的数据的password都是123456，所以我们 会把这三条数据合并成一条数据，继续下一级的查询，在下一级中前两条数据的根据id匹配不同，分两个进行存储，第三条的id跟第二条相同，则保留第二条，不保存第三条**
+
+```
+DEBUG [main] - ==>  Preparing: SELECT u.ID, u.USER_NAME, u.USER_PASSWORD, u.USER_EMAIL, u.CREATE_TIME, u.HEAD_IMG, u.USER_INFO, r.ID ROLE_ID, r.ROLE_NAME, r.ENABLED ENABLED, r.CREATED_BY CREATE_BY, r.CREATED_TIME ROLE_CREATED_TIME, sr.PRIVILEGE_NAME PRIVILEGE_NAME, sr.PRIVILEGE_URL PRIVILEGE_URL FROM SYS_USER u INNER JOIN SYS_USER_ROLE ur on u.ID = ur.USER_ID INNER JOIN SYS_ROLE r on r.ID = ur.ROLE_ID INNER JOIN SYS_ROLE_PRIVILEGE srp on r.ID = srp.ROLE_ID INNER JOIN SYS_PRIVILEGE sr on sr.ID = srp.PRIVILEGE_ID 
+
+DEBUG [main] - ==> Parameters: 
+
+TRACE [main] - <==    Columns: ID, USER_NAME, USER_PASSWORD, USER_EMAIL, CREATE_TIME, HEAD_IMG, USER_INFO, ROLE_ID, ROLE_NAME, ENABLED, CREATE_BY, ROLE_CREATED_TIME, PRIVILEGE_NAME, PRIVILEGE_URL
+
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 1, 管理员, 1, 1, 2016-04-01 17:00:00.0, 用户管理, /users
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 1, 管理员, 1, 1, 2016-04-01 17:00:00.0, 角色管理, /roles
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 1, 管理员, 1, 1, 2016-04-01 17:00:00.0, 系统日志, /logs
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 2, 普通用户, 1, 1, 2016-04-01 17:00:00.0, 人员维护, /persons
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 2, 普通用户, 1, 1, 2016-04-01 17:00:00.0, 单位维护, /companies
+TRACE [main] - <==        Row: 1001, test, 123456, test@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 2, 普通用户, 1, 1, 2016-04-01 17:00:00.0, 人员维护, /persons
+TRACE [main] - <==        Row: 1001, test, 123456, test@mybatis.com, 2016-04-02 17:00:00.0, <<BLOB>>, <<BLOB>>, 2, 普通用户, 1, 1, 2016-04-01 17:00:00.0, 单位维护, /companies
+DEBUG [main] - <==      Total: 7
+
+SysUser{id=1, userName='admin', userPassword='123456', userEmail='admin@mybatis.com', userInfo='管理员', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, 
+sysRoleList=[SysRole{Id=1, roleName='管理员', enable='1', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, 
+
+sysPrivileges=
+[SysPrivilege{Id=1, privilegeName='用户管理', privilegeURL='/users'}, 
+SysPrivilege{Id=2, privilegeName='角色管理', privilegeURL='/roles'}, 
+SysPrivilege{Id=3, privilegeName='系统日志', privilegeURL='/logs'}]},
+
+SysRole{Id=2, roleName='普通用户', enable='1', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, 
+sysPrivileges=[SysPrivilege{Id=4, privilegeName='人员维护', privilegeURL='/persons'}, SysPrivilege{Id=5, privilegeName='单位维护', privilegeURL='/companies'}]}]}
+
+
+
+SysUser{id=1001, userName='test', userPassword='123456', userEmail='test@mybatis.com', userInfo='测试用户', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, 
+sysRoleList=
+[SysRole{Id=2, roleName='普通用户', enable='1', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, 
+sysPrivileges=[
+SysPrivilege{Id=4, privilegeName='人员维护', privilegeURL='/persons'}, SysPrivilege{Id=5, privilegeName='单位维护', privilegeURL='/companies'}]}]}
+
+
+```
+
+查询用户-角色-权限一样
+
+:yellow_heart:在某一级定义resultMap的时候，设置collection的时候只要设置这一级的属性以及collection，不要在这一级上把剩下的全部collection都设置出来，会造成null(⚠️:这里面的原因还没有想)
+
+```xml
+<resultMap id="userRolePrivilege" type="cn.edu.dlnu.simple.model.SysUser" extends="userRoleMap">
+        <collection property="sysRoleList" javaType="List" ofType="cn.edu.dlnu.simple.model.SysRole" resultMap="cn.edu.dlnu.simple.mapper.RoleMapper.rolePrivilegesMap"/>
+    </resultMap>
+
+<resultMap id="rolePrivilegesMap" type="cn.edu.dlnu.simple.model.SysRole" extends="roleMap">
+        <collection property="sysPrivileges" javaType="List" ofType="cn.edu.dlnu.simple.model.SysPrivilege" resultMap="cn.edu.dlnu.simple.mapper.PrivilegeMapper.privilegeMap"/>
+    </resultMap>
+
+<resultMap id="privilegeMap" type="cn.edu.dlnu.simple.model.SysPrivilege">
+        <id property="Id" column="SYS_PRIVILEGE_ID"/>
+        <result property="privilegeName" column="PRIVILEGE_NAME"/>
+        <result property="privilegeURL" column="PRIVILEGE_URL"/>
+    </resultMap>
+
+<select id="selectAllUserAndRoles" resultMap="userRolePrivilege">
+        SELECT u.ID,
+            u.USER_NAME,
+            u.USER_PASSWORD,
+            u.USER_EMAIL,
+            u.CREATE_TIME,
+            u.HEAD_IMG,
+            u.USER_INFO,
+            r.ID ROLE_ID,
+            r.ROLE_NAME,
+            r.ENABLED ENABLED,
+            r.CREATED_BY CREATE_BY,
+            r.CREATED_TIME ROLE_CREATED_TIME,
+            sr.ID SYS_PRIVILEGE_ID,
+            sr.PRIVILEGE_NAME PRIVILEGE_NAME,
+            sr.PRIVILEGE_URL PRIVILEGE_URL
+        FROM SYS_USER u
+            INNER JOIN SYS_USER_ROLE ur on u.ID = ur.USER_ID
+            INNER JOIN SYS_ROLE r on r.ID = ur.ROLE_ID
+            INNER JOIN SYS_ROLE_PRIVILEGE srp on r.ID = srp.ROLE_ID
+            INNER JOIN SYS_PRIVILEGE sr on sr.ID = srp.PRIVILEGE_ID
+    </select>
+```
+
+#### collection集合的嵌套查询
+
+⚠️:下次再看
+
+### 鉴别器
+
 
 
 ## 小问题总结

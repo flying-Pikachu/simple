@@ -2,6 +2,7 @@ package cn.edu.dlnu.simple.model;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -26,11 +27,13 @@ public class SysUser {
 
     private Date createTime;
 
+    private List<SysRole> sysRoleList;
+
     public SysUser() {
 
     }
 
-    public SysUser(Long id, String userName, String userPassword, String userEmail, String userInfo, byte[] headImg, Date createTime) {
+    public SysUser(Long id, String userName, String userPassword, String userEmail, String userInfo, byte[] headImg, Date createTime, List<SysRole> sysRoleList) {
         this.id = id;
         this.userName = userName;
         this.userPassword = userPassword;
@@ -38,6 +41,7 @@ public class SysUser {
         this.userInfo = userInfo;
         this.headImg = headImg;
         this.createTime = createTime;
+        this.sysRoleList = sysRoleList;
     }
 
     public Long getId() {
@@ -96,6 +100,14 @@ public class SysUser {
         this.createTime = createTime;
     }
 
+    public List<SysRole> getSysRoleList() {
+        return sysRoleList;
+    }
+
+    public void setSysRoleList(List<SysRole> sysRoleList) {
+        this.sysRoleList = sysRoleList;
+    }
+
     @Override
     public String toString() {
         return "SysUser{" +
@@ -106,6 +118,7 @@ public class SysUser {
                 ", userInfo='" + userInfo + '\'' +
                 ", headImg=" + Arrays.toString(headImg) +
                 ", createTime=" + createTime +
+                ", sysRoleList=" + sysRoleList +
                 '}';
     }
 }
