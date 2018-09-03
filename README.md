@@ -1157,6 +1157,164 @@ SysRole{Id=2, roleName='普通用户', enable='1', createBy='1', createTime=Fri 
 
 ## 存储过程
 
+略
+
+## MyBatis缓存
+
+### 一级缓存
+
+```java
+@Test
+    public void testL1Cache() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        SysUser sysUser = userMapper.selectById(1l);
+        System.out.println(sysUser);
+        sysUser.setUserName("New Name");
+        System.out.println(sysUser);
+        SysUser sysUser1 = userMapper.selectById(1l);
+        System.out.println(sysUser1);
+        sysUser.setUserName("New Name1");
+        System.out.println(sysUser);
+        System.out.println(sysUser1);
+        
+        
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        UserMapper userMapper1 = sqlSession1.getMapper(UserMapper.class);
+        SysUser sysUser2 = userMapper1.selectById(1l);
+        System.out.println(sysUser2);
+    }
+
+DEBUG [main] - ==>  Preparing: SELECT * FROM SYS_USER WHERE ID = ? 
+DEBUG [main] - ==> Parameters: 1(Long)
+TRACE [main] - <==    Columns: ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_INFO, HEAD_IMG, CREATE_TIME
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, <<BLOB>>, <<BLOB>>, 2016-04-02 17:00:00.0
+DEBUG [main] - <==      Total: 1
+SysUser{id=1, userName=重点在这里'admin'
+    , userPassword='123456', userEmail='admin@mybatis.com', userInfo='管理员', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, sysRoleList=null}
+SysUser{id=1, userName=重点在这里'New Name'
+    , userPassword='123456', userEmail='admin@mybatis.com', userInfo='管理员', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, sysRoleList=null}
+SysUser{id=1, userName=重点在这里'New Name'
+    , userPassword='123456', userEmail='admin@mybatis.com', userInfo='管理员', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, sysRoleList=null}
+
+SysUser{id=1, userName=重点在这里'New Name1'
+    , userPassword='123456', userEmail='admin@mybatis.com', userInfo='管理员', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, sysRoleList=null}
+SysUser{id=1, userName=重点在这里'New Name1'
+    , userPassword='123456', userEmail='admin@mybatis.com', userInfo='管理员', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, sysRoleList=null}
+
+
+DEBUG [main] - ==>  Preparing: SELECT * FROM SYS_USER WHERE ID = ? 
+DEBUG [main] - ==> Parameters: 1(Long)
+TRACE [main] - <==    Columns: ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_INFO, HEAD_IMG, CREATE_TIME
+TRACE [main] - <==        Row: 1, admin, 123456, admin@mybatis.com, <<BLOB>>, <<BLOB>>, 2016-04-02 17:00:00.0
+DEBUG [main] - <==      Total: 1
+SysUser{id=1, userName=重点在这里'admin', 
+        userPassword='123456', userEmail='admin@mybatis.com', userInfo='管理员', headImg=null, createTime=Sat Apr 02 00:00:00 CST 2016, sysRoleList=null}
+
+```
+
+当前没有开启二级缓存，在同一个缓存使用同一个session进行查询的时候，我们发现前两个共用了同一个对象，并没有重新进行查询，第二个我们用了一个新的session，这个时候没有设置二级缓存，我们的查询就重新开始
+
+:yellow_heart:在这里我们看出如果启动一级缓存，如果我们改了一个对象，其他的使用同一个session创建的对象中的值都会改变，这时会产生问题，想要得到数据库中的值，但可能得到的是被修改过的值。
+
+我们需要在<select>标签中设置flushCache为true这样就消除了一级缓存
+
+### 二级缓存
+
+存在于sqlSessionFactory生命周期中，如果存在多个Factroy，每一个Factroy中的缓存相互独立
+
+#### XML中设置
+
+在全局开启了之后，我们需要在某一个Mapper.xml中开启
+
+我们先要让UserMapper启动，需要在命名空间中添加<cache />标签
+
+可使用的属性
+
+eviction 回收算法 默认会使用Least Recently Used算法进行数据的回收，每60s刷新一次
+
+		可选的其他算法"FIFO", "SOFT"(移除处于垃圾回收状态的和软引用的对象), "WEAK"(更积极的移除垃圾回		  收状态和弱引用状态的对象)
+
+flushinterval  刷新间隔，毫秒字段，默认不进行刷新，仅仅在调用语句的时候刷新
+
+Size    缓存数目
+
+readOnly true或false，只读时不能进行修改
+
+```xml
+<cache eviction="FIFO" flushlnterval="60000" size="512" readOnly="true" />
+```
+
+#### 接口中设置
+
+```java
+@CacheNamespace(eviction = FifoCache.class, flushInterval = 60000, size = 512, readWrite = true)
+public interface RoleMapper
+```
+
+:yellow_heart:这两个位置上不能同时进行设置，如果都配置了就会报错误，当配置xml的时候，接口中定义`@CacheNarnespaceRef(RoleMapper . class)`进行替代，当配置接口的时候，在xml文件中配置`<cache-ref narnespace=” tk.rnybatis.sirnple .rnapper.RoleMapper”/>` 
+
+⚠️如果我们配置的是可读可写的缓存，需要使用序列化，没有明白，但确实需要把实体类进行序列化以后才能使用
+
+:yellow_heart:我们在一个sqlSession中进行查找的时候，查找结果只会单纯的放在一级缓存中，如果此时其他的sqlSession查找同样的数据将会从数据库中查找，只有把sqlSession关闭的时候，才会把数据放在sqlSessionFectory的缓存中，也就是二级缓存中
+
+```java
+@Test
+    public void testSelectById() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+        SysRole sysRole = roleMapper.selectById(1l);
+        sysRole.setRoleName("xzp");
+        System.out.println(sysRole);
+        没有进行关闭操作
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        RoleMapper roleMapper1 = sqlSession1.getMapper(RoleMapper.class);
+        SysRole sysRole1 = roleMapper1.selectById(1l);
+        System.out.println(sysRole1);
+        sqlSession1.close();
+    }
+
+DEBUG [main] - ==>  Preparing: SELECT ID, ROLE_NAME, ENABLED, CREATED_BY, CREATED_TIME FROM SYS_ROLE WHERE ID = ? 
+DEBUG [main] - ==> Parameters: 1(Long)
+TRACE [main] - <==    Columns: ID, ROLE_NAME, ENABLED, CREATED_BY, CREATED_TIME
+TRACE [main] - <==        Row: 1, 管理员, 0, 1, 2016-04-01 17:00:00.0
+DEBUG [main] - <==      Total: 1
+SysRole{Id=1, roleName='xzp', enable='0', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, sysPrivileges=null}
+
+DEBUG [main] - Cache Hit Ratio [cn.edu.dlnu.simple.mapper.RoleMapper]: 0.0
+DEBUG [main] - ==>  Preparing: SELECT ID, ROLE_NAME, ENABLED, CREATED_BY, CREATED_TIME FROM SYS_ROLE WHERE ID = ? 
+DEBUG [main] - ==> Parameters: 1(Long)
+TRACE [main] - <==    Columns: ID, ROLE_NAME, ENABLED, CREATED_BY, CREATED_TIME
+TRACE [main] - <==        Row: 1, 管理员, 0, 1, 2016-04-01 17:00:00.0
+DEBUG [main] - <==      Total: 1
+SysRole{Id=1, roleName='管理员', enable='0', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, sysPrivileges=null}
+
+进行关闭操作
+DEBUG [main] - ==>  Preparing: SELECT ID, ROLE_NAME, ENABLED, CREATED_BY, CREATED_TIME FROM SYS_ROLE WHERE ID = ? 
+DEBUG [main] - ==> Parameters: 1(Long)
+TRACE [main] - <==    Columns: ID, ROLE_NAME, ENABLED, CREATED_BY, CREATED_TIME
+TRACE [main] - <==        Row: 1, 管理员, 0, 1, 2016-04-01 17:00:00.0
+DEBUG [main] - <==      Total: 1
+SysRole{Id=1, roleName='xzp', enable='0', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, sysPrivileges=null}
+DEBUG [main] - Cache Hit Ratio [cn.edu.dlnu.simple.mapper.RoleMapper]: 0.5
+SysRole{Id=1, roleName='xzp', enable='0', createBy='1', createTime=Fri Apr 01 17:00:00 CST 2016, sysPrivileges=null}
+
+```
+
+### EhCache
+
+### Redis
+
+### 脏数据的产生
+
+我们在某一个mapper中定义了一个多表查询的select，并缓存在了这个sqlSession中，若果多表中的其他的某一个表出现了插入或修改的操作，并不会影响到这个sqlSession中的缓存，因此出现了脏数据
+
+解决的方案就是让这几个session使用同一个factory产生，这样就会自动更新了
+
+## 插件开发
+
+
+
 ## 小问题总结
 
 1. 数据库中的字段与实体类中的属性不匹配 

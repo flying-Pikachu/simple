@@ -8,8 +8,9 @@ import java.util.List;
 /**
  * @Author     ：xzp.
  * @Date       ：Created in 1:58 PM 29/08/2018
- * @ Description：
+ * @Description：
  */
+@CacheNamespaceRef(RoleMapper.class)
 public interface RoleMapper {
 
     /**

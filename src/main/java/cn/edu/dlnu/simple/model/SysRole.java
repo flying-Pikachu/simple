@@ -1,5 +1,6 @@
 package cn.edu.dlnu.simple.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +12,9 @@ import java.util.Objects;
  * @author     ：xzp.
  * @date       ：Created in 1:43 PM 29/08/2018
  */
-public class SysRole {
+public class SysRole implements Serializable {
+
+    private static final long serialVersionUID = 6320941908222932112L;
 
     private Long Id;
 
@@ -24,10 +27,6 @@ public class SysRole {
     private Date createTime;
 
     private List<SysPrivilege> sysPrivileges;
-
-    public SysRole() {
-
-    }
 
     public SysRole(Long id, String roleName, String enable, String createBy, Date createTime) {
         Id = id;
