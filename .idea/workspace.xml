@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad2d1be7-ee14-4371-a812-6fe773ab6022" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/CacheTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/plugin/testInterceptor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/RoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/RoleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserRoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserRoleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/RoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/RoleMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserRoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserRoleMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/RoleMapperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/RoleMapperTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -83,62 +76,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RoleMapperTest.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/RoleMapperTest.java">
+      <file leaf-file-name="mybatis-config.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="65" column="14" selection-start-line="65" selection-start-column="14" selection-end-line="70" selection-end-column="11" />
+            <state relative-caret-position="319">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testInterceptor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/plugin/testInterceptor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#521#522#0" expanded="true" />
+                <element signature="e#548#549#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SysUserRole.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysUserRole.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="770">
-              <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserRoleMapper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserRoleMapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserRoleMapper.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserRoleMapper.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="6" column="9" lean-forward="true" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RoleMapper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/RoleMapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-860">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sys_role" pinned="false" current-in-tab="false">
-        <entry file="das://5551ae4b-ce3d-493a-97ee-6a5b5dfd6078/schema/test_mybatis/table/sys_role">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -192,14 +148,15 @@
         <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/PrivilegeMapper.xml" />
         <option value="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/UserMapperTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/CacheTest.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/RoleMapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysRole.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/RoleMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserRoleMapper.java" />
         <option value="$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserRoleMapper.xml" />
         <option value="$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/RoleMapperTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysRole.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/plugin/testInterceptor.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" />
       </list>
     </option>
   </component>
@@ -275,16 +232,7 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="simple" type="462c0819:PsiDirectoryNode" />
-              <item name="mapper" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="simple" type="b2602c69:ProjectViewProjectNode" />
-              <item name="simple" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="simple" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="plugin" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="simple" type="b2602c69:ProjectViewProjectNode" />
@@ -543,20 +491,11 @@
       <workItem from="1535680594761" duration="26000" />
       <workItem from="1535680722885" duration="8955000" />
       <workItem from="1535708901203" duration="605000" />
-      <workItem from="1535936989573" duration="6019000" />
+      <workItem from="1535936989573" duration="8101000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RoleMapperTest_testSelectById - 2018.09.03 at 13h 48m 46s.xml">
-      <configuration name="RoleMapperTest.testSelectById" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RoleMapperTest_testSelectById - 2018.09.03 at 13h 54m 08s.xml">
-      <configuration name="RoleMapperTest.testSelectById" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="RoleMapperTest_testSelectRoleByUserIdChoose - 2018.09.03 at 13h 54m 12s.xml">
-      <configuration name="RoleMapperTest.testSelectRoleByUserIdChoose" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="RoleMapperTest_testSelectRoleByUserIdChoose - 2018.09.03 at 13h 54m 20s.xml">
       <configuration name="RoleMapperTest.testSelectRoleByUserIdChoose" configurationId="JUnit" />
     </history-entry>
@@ -578,9 +517,18 @@
     <history-entry file="RoleMapperTest_testSelectRoleByUserIdChoose - 2018.09.03 at 14h 08m 02s.xml">
       <configuration name="RoleMapperTest.testSelectRoleByUserIdChoose" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="RoleMapperTest_testSelectRoleByUserIdChoose - 2018.09.03 at 14h 08m 35s.xml">
+      <configuration name="RoleMapperTest.testSelectRoleByUserIdChoose" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RoleMapperTest_testSelectById - 2018.09.03 at 14h 09m 37s.xml">
+      <configuration name="RoleMapperTest.testSelectById" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="RoleMapperTest_testSelectById - 2018.09.03 at 14h 10m 01s.xml">
+      <configuration name="RoleMapperTest.testSelectById" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46100000" />
+    <option name="totallyTimeSpent" value="48182000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="42" y="23" width="1398" height="877" extended-state="0" />
@@ -599,10 +547,9 @@
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Terminal" order="1" />
       <window_info id="Capture Tool" order="2" />
-      <window_info anchor="bottom" id="Database Console" order="12" weight="0.32876712" />
       <window_info id="Designer" order="0" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.20171674" />
-      <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.16523606" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.20171674" />
+      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.16523606" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
       <window_info id="UI Designer" order="1" />
@@ -614,6 +561,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="5" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Database Console" order="12" weight="0.32876712" />
       <window_info anchor="bottom" id="Find" order="6" />
     </layout>
   </component>
@@ -624,13 +572,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/cn/edu/dlnu/simple/mapper/UserMapper.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1330">
-          <caret line="70" column="9" lean-forward="true" selection-start-line="70" selection-start-column="9" selection-end-line="70" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/UserMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="608">
@@ -938,23 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysRole.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4">
-          <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="das://5551ae4b-ce3d-493a-97ee-6a5b5dfd6078/schema/test_mybatis/table/sys_user_role">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -969,10 +893,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/RoleMapper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysUserRole.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-860">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="941">
+          <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -980,6 +904,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="6" column="9" lean-forward="true" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://5551ae4b-ce3d-493a-97ee-6a5b5dfd6078/schema/test_mybatis/table/sys_role">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/RoleMapperTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysRole.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="38" column="25" lean-forward="true" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -993,27 +944,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/model/SysUserRole.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/mapper/RoleMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="770">
-          <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
+        <state relative-caret-position="-860">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
-    <entry file="das://5551ae4b-ce3d-493a-97ee-6a5b5dfd6078/schema/test_mybatis/table/sys_role">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/cn/edu/dlnu/simple/mapper/RoleMapperTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/edu/dlnu/simple/plugin/testInterceptor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="65" column="14" selection-start-line="65" selection-start-column="14" selection-end-line="70" selection-end-column="11" />
+        <state relative-caret-position="340">
+          <caret line="28" column="5" lean-forward="true" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#521#522#0" expanded="true" />
+            <element signature="e#548#549#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mybatis-config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>

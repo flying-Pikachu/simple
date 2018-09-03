@@ -20,6 +20,12 @@
         <package name="cn.edu.dlnu.simple.model"/>
     </typeAliases>
 
+    <plugins>
+        <plugin interceptor="cn.edu.dlnu.simple.plugin.testInterceptor">
+            <property name="pro1" value="val1"/>
+            <property name="pro2" value="val2"/>
+        </plugin>
+    </plugins>
 
     <environments default="HO">
         <environment id="HO">
@@ -45,6 +51,7 @@
     </environments>
 
 
+
     <mappers>
 
         <mapper resource="cn/edu/dlnu/simple/mapper/CountryMapper.xml"/>
@@ -61,5 +68,7 @@
         <!--<package name="cn.edu.dlnu.simple.mapper"/>-->
 
     <!--</mappers>-->
+    
+
 
 </configuration>

@@ -1313,7 +1313,156 @@ SysRole{Id=1, roleName='xzp', enable='0', createBy='1', createTime=Fri Apr 01 17
 
 ## 插件开发
 
+### 拦截器接口
 
+```java
+<plugins>
+    <plugin interceptor="cn.edu.dlnu.simple.plugin.testInterceptor">
+       <property name="pro1" value="val1"/>
+       <property name="pro2" value="val2"/>
+    </plugin>
+</plugins>
+
+public interface Interceptor {
+
+	要执行的拦截方法
+	invocation.getTarget() 	获取当前被拦截的对象
+	invocation.getMethod()	获取当前被拦截的方法
+	invocation.getArgs()	获取被拦截方法的参数哦
+	invocation.proceed()	执行被拦截对象的方法
+	Object intercept(Invocation invocation) throws Throwable; 
+	
+	targer就是拦截器要拦截的对象，会在创建被拦截的接口实现类的时候被调用，一般内部的方法
+	return Plain.wrap(target, this);
+	自动判断拦截器的签名和被拦截器的对象接口是否匹配
+	Object plugin(Object target);
+	
+	拦截器的参数通过这个方法把<property>中的参数传递给拦截器，properties能得到配置的参数哦
+	void setProperties(Properties);         
+}
+```
+
+实现接口的时候，需要配置注解
+
+```java
+@Intercepts({ 
+    @Signature (
+  	设置拦截接口，可选值有Executor，ResultSetHandler，ParameterHandler，StatementHandler
+    type = ResultSetHandler.class,
+    设置拦截器接口的方法，四个接口对应的方法
+    method = "handleResultSets",
+    拦截方法的参数类型数组，方法名和参数类型确定唯一的方法
+    args = {Statement.class})
+})
+public class ResultSetinterceptor implements Interceptor
+```
+
+#### Executor接口
+
+```java
+int update (MappedStatement ms, Object parameter) throws SQLException
+```
+
+会在所有Insert, update, delete执行时被调用，如果想要拦截者三类操作，可以拦截这个方法
+
+```java
+<E> List<E> query (MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException
+```
+
+会在所有的select执行时被调用
+
+```java
+<E> Cursor<E> queryCursor (MappedStatement ms, Object parameter,RowBounds rowBounds) throws SQLException
+```
+
+查询的返回值为Cursor时被调用
+
+```java
+List<BatchResult> flushStatements() throws SQLException
+```
+
+SqlSession调用flushStatements或者执行@Flush的时候被调用
+
+```java
+void commit (boolean required) throws SQLException
+void rollback(boolean required) throws SQLException
+```
+
+SqlSession调用commit和rollback
+
+```java
+Transaction getTransaction()
+```
+
+通过SqlSession获取数据库连接的时候被调用
+
+#### ParameterHandler接口
+
+```java
+Object getParameterObject ()
+```
+
+存储过程处理出参的时候调用
+
+```java
+void setParameters(PreparedStatement ps) throws SQLException
+```
+
+所有数据库方法设置SQL参数时被调用
+
+#### ResultSetHandler接口
+
+```java
+<E> List<E> handleResultSets (Statement stmt) throws SQLException;
+```
+
+除了存储过程及返回值为Cursor以外的查询方法中被调用
+
+```java
+<E> Cursor<E> handleCursorResultSets (Statement stmt) throws SQLException;
+```
+
+只会在返回值为Cursor时调用
+
+```java
+void handleOutputParameters (CallableStatement cs) throws SQLException;
+```
+
+只想存储过程出参时调用
+
+#### StatementHandler接口
+
+```java
+Statement prepare (Connection connection, Integer transactionTimeout) throws SQLException;
+```
+
+数据库执行前被调用，优先于当前接口中的其他方法被执行
+
+```java
+void parameterize (Statement statement) throws SQLException;
+```
+
+在prepare执行之后被执行，用于处理参数信息
+
+```java
+int batch (Statement statement) throws SQLException;
+```
+
+全剧配置中defalutExecutorType="BATCH"时被调用
+
+```java
+<E> List<E> query (Statement statement,ResultHandler resultHandler) throws SQLException ;
+```
+
+select方法被执行时调用
+
+```java
+<E> Cursor<E> queryCursor (Statement statement) throws SQLException;
+```
+
+返回值为Cursor的查询中被调用
+
+⚠️：具体的代码并没有实现，理解不是完善
 
 ## 小问题总结
 
